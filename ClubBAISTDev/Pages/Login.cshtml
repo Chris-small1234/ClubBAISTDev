@@ -3,5 +3,30 @@
 @{
     ViewData["Title"] = "Login";
 }
-
-<h1>Login</h1>
+<div>
+    <h1>Login</h1>
+    <form method="post" name="LoginForm">
+        <table>
+            <tr>
+                <td>Member ID:</td>
+                <td>
+                    <input asp-for="MemberIdField" type="text" />
+                    <span asp-validation-for="MemberIdField"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td>
+                    <input asp-for="PasswordField" type="password" />
+                    <span asp-validation-for="PasswordField"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit" name="Submit">Submit</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    @Model.Message
+</div>
