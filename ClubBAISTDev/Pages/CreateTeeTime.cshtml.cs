@@ -9,8 +9,12 @@ namespace ClubBAISTDev.Pages
 {
     public class CreateTeeTimeModel : PageModel
     {
+        [BindProperty]
+        public DateTime TeeSheetDateField { get; set; }
+
         public void OnGet()
         {
+
         }
     }
 }

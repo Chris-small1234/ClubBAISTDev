@@ -5,3 +5,25 @@
 }
 
 <h1>Tee Times</h1>
+
+<form method="post" name="DailyTeeSheetForm">
+    <table>
+        <tr>
+            <td>
+                <h3>Select Date of Requested Tee Sheet:</h3>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input asp-for="TeeSheetDateField" type="date" />
+                <span asp-validation-for="TeeSheetDateField"></span>
+                <br/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" name="SubmitDailTeeSheetForm">Submit</button>
+            </td>
+        </tr>
+    </table>
+</form>
