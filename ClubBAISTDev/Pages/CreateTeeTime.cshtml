@@ -3,27 +3,85 @@
 @{
     ViewData["Title"] = "Request Tee Times";
 }
+<head>
+    <script>
+        function GetDate(inputElement) {
+            var today = new Date();
+            inputElement.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+        }
 
-<h1>Tee Times</h1>
+        function ValidateDate(inputElementValue) {
+            var todaySecs = new Date().getTime();
+            var nextWeekSecs = todaySecs + 7 * 24 * 60 * 60 * 1000;
+            var inputSecs = new Date(inputElementValue).getTime();
 
-<form method="post" name="DailyTeeSheetForm">
-    <table>
-        <tr>
-            <td>
-                <h3>Select Date of Requested Tee Sheet:</h3>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input asp-for="TeeSheetDateField" type="date" />
-                <span asp-validation-for="TeeSheetDateField"></span>
-                <br/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit" name="SubmitDailTeeSheetForm">Submit</button>
-            </td>
-        </tr>
-    </table>
-</form>
+            if (inputSecs > nextWeekSecs) {
+                alert("You cannot schedule a tee time that's more than a week away");
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+</head>
+<div>
+    <h1>Tee Times</h1>
+
+    <form method="post" name="DailyTeeSheetForm" onsubmit="return ValidateDate(window.document.DailyTeeSheetForm.TeeSheetDateField.value);">
+        <table>
+            <tr>
+                <td>
+                    <h3>Select Date of Requested Tee Sheet:</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input asp-for="TeeSheetDateField" type="date" onclick="GetDate(window.document.DailyTeeSheetForm.TeeSheetDateField);"/>
+                    <span asp-validation-for="TeeSheetDateField"></span>
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit" name="Submit" value="SearchTeeSheet">Search</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br/>
+    <form method="post" name="TeeTimeForm">
+        <table>
+            @if (Model.TeeSheet != null)
+            {
+                <tr>
+                    <td>
+                        <h3>Select Date of Requested Tee Sheet:</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date: @Model.TeeSheet.TeeSheetDate.ToLongDateString()</td>
+                    <td>Day of Week: @Model.TeeSheet.TeeSheetDayOfWeek</td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>Choose Hour of Day:</td>
+                    <td>
+                        <input type="text" name="TimeListEntry" list="TimeList" />
+                        <datalist id="TimeList">
+                            <option value="7 AM">7:00 AM - 7:59 AM</option>
+                            <option value="8 AM">8:00 AM - 8:59 AM</option>
+                        </datalist>
+                    </td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
+                    <td>
+                        <button type="submit" name="Submit" value="RequestTeeTime">Submit</button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </form>
+</div>
+
+
