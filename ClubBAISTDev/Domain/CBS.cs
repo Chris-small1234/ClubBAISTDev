@@ -25,5 +25,14 @@ namespace ClubBAISTDev.Domain
 
             return TeeSheet;
         }
+
+        public List<TeeTime> GetTeeTimes(int dailyTeeSheetId)
+        {
+            TeeTimes TeeTimeManager = new();
+            List<TeeTime> TodayTeeTimes = new();
+            TodayTeeTimes = TeeTimeManager.GetTeeTimes(dailyTeeSheetId);
+
+            return TodayTeeTimes;
+        }
     }
 }

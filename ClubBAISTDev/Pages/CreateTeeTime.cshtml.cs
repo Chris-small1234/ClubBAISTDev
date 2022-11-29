@@ -15,6 +15,10 @@ namespace ClubBAISTDev.Pages
 
         public DailyTeeSheet TeeSheet { get; set; }
 
+        public List<TeeTime> TodayTeeTimes { get; set; }
+
+        public Member ListedMember { get; set; }
+
         [BindProperty]
         public string Submit { get; set; }
 
@@ -34,6 +38,8 @@ namespace ClubBAISTDev.Pages
                 case "SearchTeeSheet":
 
                     TeeSheet = RequestDirector.GetDailyTeeSheet(TeeSheetDateField);
+                    TodayTeeTimes = RequestDirector.GetTeeTimes(TeeSheet.DailyTeeSheetId);
+                    //ListedMember = RequestDirector.GetMember();
                     break;
 
                 case "RequestTeeTime":
