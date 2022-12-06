@@ -57,12 +57,119 @@ namespace ClubBAISTDev.TechnicalServices
                     }
                     NewTeeTime.MemberId = (int)DataReader["MemberId"];
                     NewTeeTime.DailyTeeSheetId = (int)DataReader["DailyTeeSheetId"];
+                    NewTeeTime.MemberName = (string)DataReader["MemberName"];
                     TodayTeeTimes.Add(NewTeeTime);
                 }
             }
             DataReader.Close();
             MyDataSource.Close();
             return TodayTeeTimes;
+        }
+
+        public bool CreateTeeTime (TeeTime RequestedTeeTime)
+        {
+            bool Confirmation = false;
+
+            SqlConnection DataSource = new();
+
+
+            DataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB";
+
+            DataSource.Open();
+
+            SqlCommand AddCommand = new();
+            AddCommand.Connection = DataSource;
+            AddCommand.CommandType = CommandType.StoredProcedure;
+            AddCommand.CommandText = "CreateTeeTime";
+
+            SqlParameter CommandParameter;
+
+            CommandParameter = new()
+            {
+                ParameterName = "@TimeSlot",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = RequestedTeeTime.TimeSlot
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@NumberOfPlayers",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = RequestedTeeTime.NumberOfPlayers
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@Phone",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = RequestedTeeTime.Phone
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@NumberOfCarts",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = RequestedTeeTime.NumberOfCarts
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@TeeDate",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = RequestedTeeTime.TeeDate
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@TeeTime",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = RequestedTeeTime.SetTeeTime
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@EmployeeName",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = RequestedTeeTime.EmployeeName
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@MemberId",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = RequestedTeeTime.MemberId
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@DailyTeeSheetId",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = RequestedTeeTime.DailyTeeSheetId
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            AddCommand.ExecuteNonQuery();
+            DataSource.Close();
+
+            Confirmation = true;
+            return Confirmation;
         }
     }
 }

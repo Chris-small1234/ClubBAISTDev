@@ -26,6 +26,8 @@ namespace ClubBAISTDev.Pages
 
         public CBS RequestDirector = new();
 
+        public bool DailyTeeSheetConfirmation = false;
+
         public void OnGet()
         {
 
@@ -38,8 +40,15 @@ namespace ClubBAISTDev.Pages
                 case "SearchTeeSheet":
 
                     TeeSheet = RequestDirector.GetDailyTeeSheet(TeeSheetDateField);
-                    TodayTeeTimes = RequestDirector.GetTeeTimes(TeeSheet.DailyTeeSheetId);
-                    //ListedMember = RequestDirector.GetMember();
+                    if (TeeSheet.TeeSheetDayOfWeek == null)
+                    {
+                        Message = "There are no Tee Times on the selected day";
+
+                    } else
+                    {
+                        DailyTeeSheetConfirmation = true;
+                        TodayTeeTimes = RequestDirector.GetTeeTimes(TeeSheet.DailyTeeSheetId);
+                    }
                     break;
 
                 case "RequestTeeTime":

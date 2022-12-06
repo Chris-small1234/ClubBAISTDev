@@ -52,7 +52,7 @@
     <br/>
     <form method="post" name="TeeTimeForm">
         <table>
-            @if (Model.TeeSheet != null)
+            @if (Model.DailyTeeSheetConfirmation)
             {
                 <tr>
                     <td>
@@ -81,7 +81,7 @@
                             {
                         <tr>
                             <td>@teeTime.TimeSlot.ToShortTimeString()</td>
-                            <td></td>
+                            <td>@teeTime.MemberName</td>
                             <td>@teeTime.NumberOfPlayers</td>
                             <td>@teeTime.Phone</td>
                             <td>@teeTime.NumberOfCarts</td>
@@ -97,6 +97,7 @@
             }
         </table>
     </form>
+    @Model.Message
 </div>
 
 

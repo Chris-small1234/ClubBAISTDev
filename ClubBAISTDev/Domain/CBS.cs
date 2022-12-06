@@ -34,5 +34,14 @@ namespace ClubBAISTDev.Domain
 
             return TodayTeeTimes;
         }
+
+        public bool CreateTeeTime(TeeTime RequestedTeeTime)
+        {
+            TeeTimes TeeTimeManager = new();
+            bool Confirmation;
+            Confirmation = TeeTimeManager.CreateTeeTime(RequestedTeeTime);
+
+            return Confirmation;
+        }
     }
 }
