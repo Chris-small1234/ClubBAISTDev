@@ -125,7 +125,7 @@ namespace ClubBAISTDev.TechnicalServices
                 ParameterName = "@TeeDate",
                 SqlDbType = SqlDbType.VarChar,
                 Direction = ParameterDirection.Input,
-                SqlValue = RequestedTeeTime.TeeDate
+                SqlValue = RequestedTeeTime.TeeDate.Date
             };
             AddCommand.Parameters.Add(CommandParameter);
 

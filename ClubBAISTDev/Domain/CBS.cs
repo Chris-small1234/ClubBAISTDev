@@ -35,8 +35,20 @@ namespace ClubBAISTDev.Domain
             return TodayTeeTimes;
         }
 
-        public bool CreateTeeTime(TeeTime RequestedTeeTime)
+        public bool CreateTeeTime(DateTime TimeSlotField, int NumberOfPlayersField, string PhoneField, int NumberOfCartsField, DateTime TeeTimeDateField, DateTime SetTeeTimeField, string EmployeeNameField, int MemberIdField, int DailyTeeSheetIdField)
         {
+            TeeTime RequestedTeeTime = new()
+            {
+                TimeSlot = TimeSlotField,
+                NumberOfPlayers = NumberOfPlayersField,
+                Phone = PhoneField,
+                NumberOfCarts = NumberOfCartsField,
+                TeeDate = TeeTimeDateField,
+                SetTeeTime = SetTeeTimeField,
+                EmployeeName = EmployeeNameField,
+                MemberId = MemberIdField,
+                DailyTeeSheetId = DailyTeeSheetIdField
+            };
             TeeTimes TeeTimeManager = new();
             bool Confirmation;
             Confirmation = TeeTimeManager.CreateTeeTime(RequestedTeeTime);
