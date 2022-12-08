@@ -28,7 +28,7 @@
 <div>
     <h1>Tee Times</h1>
 
-    <form method="post" name="DailyTeeSheetForm" onsubmit="return ValidateDate(window.document.DailyTeeSheetForm.TeeSheetDateField.value);">
+    <form method="post" name="ScheduleTeeTimeForm" onsubmit="return ValidateDate(window.document.ScheduleTeeTimeForm.TeeSheetDateField.value);">
         <table>
             <tr>
                 <td>
@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <td>
-                    <input asp-for="TeeSheetDateField" type="date" onclick="GetDate(window.document.DailyTeeSheetForm.TeeSheetDateField);"/>
+                    <input asp-for="TeeSheetDateField" type="date" onclick="GetDate(window.document.ScheduleTeeTimeForm.TeeSheetDateField);"/>
                     <span asp-validation-for="TeeSheetDateField"></span>
                     <br />
                 </td>
@@ -48,9 +48,7 @@
                 </td>
             </tr>
         </table>
-    </form>
-    <br/>
-    <form method="post" name="TeeTimeForm">
+        <br/>
         <table>
             @if (Model.DailyTeeSheetConfirmation)
             {
@@ -124,7 +122,7 @@
             <tr>
                 <td>Tee Time:</td>
                 <td>
-                    <input onclick="GetDate(window.document.TeeTimeForm.TeeTimeField);" asp-for="TeeTimeField" name="TeeTimeField" />
+                    <input onclick="GetDate(window.document.ScheduleTeeTimeForm.TeeTimeField);" asp-for="TeeTimeField" name="TeeTimeField" type="time" />
                     @Html.ValidationMessage("TeeTimeField")
                 </td>
             </tr>

@@ -78,7 +78,7 @@ namespace ClubBAISTDev.Pages
                     break;
 
                 case "RequestTeeTime":
-                    TeeSheet = RequestDirector.GetDailyTeeSheet(TeeTimeField);
+                    TeeSheet = RequestDirector.GetDailyTeeSheet(TeeSheetDateField);
                     int DailyTeeSheetId = TeeSheet.DailyTeeSheetId;
                     Confirmation = RequestDirector.CreateTeeTime(NumberOfPlayersField, PhoneField, NumberOfCartsField, TeeTimeField, EmployeeNameField, MemberIdField, DailyTeeSheetId);
                     if (Confirmation)

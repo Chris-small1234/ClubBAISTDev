@@ -41,27 +41,28 @@
             <tr>
                 <td>Requested Tee Time: (+- 30 min)</td>
                 <td>
-                    <input asp-for="RequestedTeeTimeField" name="RequestedTeeTimeField" />
+                    <input asp-for="RequestedTeeTimeField" name="RequestedTeeTimeField" type="time" />
                 </td>
             </tr>
             <tr>
                 <td>Requested Start Date:</td>
                 <td>
-                    <input onclick="GetDate(window.document.TeeTimeForm.RequestedStartDate);" asp-for="RequestedStartDateField" name="RequestedStartDateField" />
+                    <input onclick="GetDate(window.document.RequestStandingTeeTimeForm.RequestedStartDateField);" type="date" asp-for="RequestedStartDateField" name="RequestedStartDateField" />
                 </td>
             </tr>
             <tr>
                 <td>Requested End Date:</td>
                 <td>
-                    <input onclick="GetDate(window.document.TeeTimeForm.RequestedEndDate);" asp-for="RequestedEndDateField" name="RequestedEndDateField" />
+                    <input onclick="GetDate(window.document.RequestStandingTeeTimeForm.RequestedEndDateField);" type="date" asp-for="RequestedEndDateField" name="RequestedEndDateField" />
                 </td>
             </tr>
             <tr>
                 <td>
-                    <button type="submit" name="Submit" value="RequestTeeTime">Submit</button>
+                    <button type="submit" name="Submit" value="RequestStandingTeeTime">Submit</button>
                 </td>
             </tr>
         </table>
     </form>
+    <br/>
     @Model.Message
 </div>

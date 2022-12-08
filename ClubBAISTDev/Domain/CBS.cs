@@ -62,5 +62,23 @@ namespace ClubBAISTDev.Domain
 
             return Confirmation;
         }
+
+        public bool CreateStandingTeeTimeRequest(int MemberIdField, DateTime RequestedTeeTimeField, string DayOfWeekField, DateTime StartDateField, DateTime EndDateField, bool ApprovedField)
+        {
+            StandingTeeTimeRequest RequestedStandingTeeTime = new()
+            {
+                MemberId = MemberIdField,
+                RequestedTeeTime = RequestedTeeTimeField,
+                DayOfWeek = DayOfWeekField,
+                StartDate = StartDateField,
+                EndDate = EndDateField,
+                Approved = ApprovedField
+            };
+            StandingTeeTimeRequests StandingTeeTimeManager = new();
+            bool Confirmation;
+            Confirmation = StandingTeeTimeManager.CreateStandingTeeTimeRequest(RequestedStandingTeeTime);
+
+            return Confirmation;
+        }
     }
 }
