@@ -14,9 +14,6 @@ namespace ClubBAISTDev.Pages
         public DateTime TeeSheetDateField { get; set; }
 
         [BindProperty]
-        public DateTime TimeSlotField { get; set; }
-
-        [BindProperty]
         public int NumberOfPlayersField { get; set; }
 
         [BindProperty]
@@ -26,7 +23,7 @@ namespace ClubBAISTDev.Pages
         public int NumberOfCartsField { get; set; }
 
         [BindProperty]
-        public DateTime SetTeeTimeField { get; set; }
+        public DateTime TeeTimeField { get; set; }
 
         [BindProperty]
         public string EmployeeNameField { get; set; }
@@ -66,8 +63,13 @@ namespace ClubBAISTDev.Pages
                     TeeSheet = RequestDirector.GetDailyTeeSheet(TeeSheetDateField);
                     if (TeeSheet.TeeSheetDayOfWeek == null)
                     {
-                        Message = "There are no Tee Times on the selected day";
-
+                        Confirmation = RequestDirector.CreateTeeSheet(TeeSheetDateField, TeeSheetDateField.DayOfWeek.ToString());
+                        if (Confirmation)
+                        {
+                            TeeSheet = RequestDirector.GetDailyTeeSheet(TeeSheetDateField);
+                            Confirmation = false; 
+                            Message = "There are no Tee Times scheduled for that day";
+                        }
                     } else
                     {
                         DailyTeeSheetConfirmation = true;
@@ -76,31 +78,9 @@ namespace ClubBAISTDev.Pages
                     break;
 
                 case "RequestTeeTime":
-                    /*
-                    foreach (var teeTime in TodayTeeTimes)
-                    {
-                        TimeSpan requestedTeeTimeSpan = RequestedTeeTime.SetTeeTime - new DateTime(1970, 1, 1);
-                        int requestedTeeTimeSecondsSinceEpoch = (int)requestedTeeTimeSpan.TotalSeconds;
-
-                        TimeSpan existingTeeTimeSpan = teeTime.SetTeeTime - new DateTime(1970, 1, 1);
-                        int existingTeeTimeSecondsSinceEpoch = (int)existingTeeTimeSpan.TotalSeconds;
-
-                        int eightMinutesInSeconds = 480000;
-
-                        if (requestedTeeTimeSecondsSinceEpoch - eightMinutesInSeconds != existingTeeTimeSecondsSinceEpoch || requestedTeeTimeSecondsSinceEpoch + eightMinutesInSeconds != existingTeeTimeSecondsSinceEpoch)
-                        {
-                            Confirmation = RequestDirector.CreateTeeTime(RequestedTeeTime);
-                        } else
-                        {
-                            Confirmation = false;
-                            Message = "Cannot book tee time, another member has already book at that time";
-                        }
-                    }
-                    */
-                    DateTime TeeTimeDateField = SetTeeTimeField.Date;
-                    TeeSheet = RequestDirector.GetDailyTeeSheet(SetTeeTimeField);
+                    TeeSheet = RequestDirector.GetDailyTeeSheet(TeeTimeField);
                     int DailyTeeSheetId = TeeSheet.DailyTeeSheetId;
-                    Confirmation = RequestDirector.CreateTeeTime(TimeSlotField, NumberOfPlayersField, PhoneField, NumberOfCartsField, TeeTimeDateField, SetTeeTimeField, EmployeeNameField, MemberIdField, DailyTeeSheetId);
+                    Confirmation = RequestDirector.CreateTeeTime(NumberOfPlayersField, PhoneField, NumberOfCartsField, TeeTimeField, EmployeeNameField, MemberIdField, DailyTeeSheetId);
                     if (Confirmation)
                     {
                         Message = "Tee Time has been booked";

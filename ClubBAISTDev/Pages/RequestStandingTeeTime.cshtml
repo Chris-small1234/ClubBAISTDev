@@ -1,0 +1,67 @@
+﻿@page
+@model ClubBAISTDev.Pages.RequestStandingTeeTimeModel
+@{
+    ViewData["Title"] = "Request Standing Tee Time";
+}
+<head>
+    <link rel="stylesheet" href="~/css/TeeTimeTable.css" />
+    <script>
+        function GetDate(inputElement) {
+            var today = new Date();
+            inputElement.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+        }
+    </script>
+</head>
+<div>
+    <h1>Request Standing Tee Time</h1>
+
+    <form method="post" name="RequestStandingTeeTimeForm">
+        <table>
+            <tr>
+                <td>
+                    <h2>Request Standing Tee Time</h2>
+                </td>
+            </tr>
+            <tr>
+                <td>Member ID:</td>
+                <td>
+                    <input asp-for="MemberIdField" name="MemberIdField" />
+                </td>
+                <td>Member Name:</td>
+                <td>
+                    <input asp-for="MemberNameField" name="MemberNameField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Requested Day Of Week:</td>
+                <td>
+                    <input asp-for="RequestedDayOfWeekField" name="RequestedDayOfWeekField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Requested Tee Time: (+- 30 min)</td>
+                <td>
+                    <input asp-for="RequestedTeeTimeField" name="RequestedTeeTimeField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Requested Start Date:</td>
+                <td>
+                    <input onclick="GetDate(window.document.TeeTimeForm.RequestedStartDate);" asp-for="RequestedStartDateField" name="RequestedStartDateField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Requested End Date:</td>
+                <td>
+                    <input onclick="GetDate(window.document.TeeTimeForm.RequestedEndDate);" asp-for="RequestedEndDateField" name="RequestedEndDateField" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit" name="Submit" value="RequestTeeTime">Submit</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    @Model.Message
+</div>

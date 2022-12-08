@@ -79,81 +79,67 @@
                             </tr>
                             @foreach (var teeTime in Model.TodayTeeTimes)
                             {
-                                <tr>
-                                    <td>@teeTime.TimeSlot.ToShortTimeString()</td>
-                                    <td>@teeTime.MemberName</td>
-                                    <td>@teeTime.NumberOfPlayers</td>
-                                    <td>@teeTime.Phone</td>
-                                    <td>@teeTime.NumberOfCarts</td>
-                                    <td>@teeTime.TeeDate.ToShortDateString()</td>
-                                    <td>@teeTime.SetTeeTime.ToShortTimeString()</td>
-                                    <td>@teeTime.EmployeeName</td>
-                                </tr>
+                        <tr>
+                            <td>@teeTime.SetTeeTime.ToShortTimeString()</td>
+                            <td>@teeTime.MemberName</td>
+                            <td>@teeTime.NumberOfPlayers</td>
+                            <td>@teeTime.Phone</td>
+                            <td>@teeTime.NumberOfCarts</td>
+                            <td>@teeTime.SetTeeTime.ToShortDateString()</td>
+                            <td>@teeTime.SetTeeTime.ToShortTimeString()</td>
+                            <td>@teeTime.EmployeeName</td>
+                        </tr>
                             }
                         </table>
                     </td>
                 </tr>
-                <tr><td><br /></td></tr>
-                <tr>
-                    <td>
-                        <h2>Create Tee Time</h2>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Time Slot:</td>
-                    <td>
-                        <input onclick="GetDate(window.document.TeeTimeForm.TimeSlotField);" asp-for="TimeSlotField" name="TimeSlotField" />
-                        @Html.ValidationMessage("TimeSlotField")
-                    </td>
-                </tr>
-                <tr>
-                    <td>Number of Players:</td>
-                    <td>
-                        <input asp-for="NumberOfPlayersField" name="NumberOfPlayersField" />
-                        @Html.ValidationMessage("NumberOfPlayersField")
-                    </td>
-                </tr>
-                <tr>
-                    <td>Phone Number:</td>
-                    <td>
-                        <input asp-for="PhoneField" name="PhoneField" />
-                        @Html.ValidationMessage("PhoneField")
-                    </td>
-                </tr>
-                <tr>
-                    <td>Number of Carts:</td>
-                    <td>
-                        <input asp-for="NumberOfCartsField" name="NumberOfCartsField" />
-                        @Html.ValidationMessage("NumberOfCartsField")
-                    </td>
-                </tr>
-                <tr>
-                    <td>Tee Time:</td>
-                    <td>
-                        <input onclick="GetDate(window.document.TeeTimeForm.SetTeeTimeField);" asp-for="SetTeeTimeField" name="SetTeeTimeField" />
-                        @Html.ValidationMessage("SetTeeTimeField")
-                    </td>
-                </tr>
-                <tr>
-                    <td>Member ID:</td>
-                    <td>
-                        <input asp-for="MemberIdField" name="MemberIdField" />
-                        @Html.ValidationMessage("MemberIdField")
-                    </td>
-                </tr>
-                <tr>
-                    <td>DailyTeeSheet ID:</td>
-                    <td>
-                        <input value="@Model.TeeSheet.DailyTeeSheetId" asp-for="DailyTeeSheetIdField" name="DailyTeeSheetIdField" disabled />
-                        @Html.ValidationMessage("DailyTeeSheetIdField")
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button type="submit" name="Submit" value="RequestTeeTime">Submit</button>
-                    </td>
-                </tr>
             }
+            <tr><td><br /></td></tr>
+            <tr>
+                <td>
+                    <h2>Create Tee Time</h2>
+                </td>
+            </tr>
+            <tr>
+                <td>Number of Players:</td>
+                <td>
+                    <input asp-for="NumberOfPlayersField" name="NumberOfPlayersField" />
+                    @Html.ValidationMessage("NumberOfPlayersField")
+                </td>
+            </tr>
+            <tr>
+                <td>Phone Number:</td>
+                <td>
+                    <input asp-for="PhoneField" name="PhoneField" />
+                    @Html.ValidationMessage("PhoneField")
+                </td>
+            </tr>
+            <tr>
+                <td>Number of Carts:</td>
+                <td>
+                    <input asp-for="NumberOfCartsField" name="NumberOfCartsField" />
+                    @Html.ValidationMessage("NumberOfCartsField")
+                </td>
+            </tr>
+            <tr>
+                <td>Tee Time:</td>
+                <td>
+                    <input onclick="GetDate(window.document.TeeTimeForm.TeeTimeField);" asp-for="TeeTimeField" name="TeeTimeField" />
+                    @Html.ValidationMessage("TeeTimeField")
+                </td>
+            </tr>
+            <tr>
+                <td>Member ID:</td>
+                <td>
+                    <input asp-for="MemberIdField" name="MemberIdField" />
+                    @Html.ValidationMessage("MemberIdField")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit" name="Submit" value="RequestTeeTime">Submit</button>
+                </td>
+            </tr>
         </table>
     </form>
     @Model.Message

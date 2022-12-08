@@ -45,11 +45,9 @@ namespace ClubBAISTDev.TechnicalServices
                 {
                     TeeTime NewTeeTime = new();
                     NewTeeTime.TeeTimeId = (int)DataReader["TeeTimeId"];
-                    NewTeeTime.TimeSlot = (DateTime)DataReader["TimeSlot"];
                     NewTeeTime.NumberOfPlayers = (int)DataReader["NumberOfPlayers"];
                     NewTeeTime.Phone = (string)DataReader["Phone"];
                     NewTeeTime.NumberOfCarts = (int)DataReader["NumberOfCarts"];
-                    NewTeeTime.TeeDate = (DateTime)DataReader["TeeDate"];
                     NewTeeTime.SetTeeTime = (DateTime)DataReader["TeeTime"];
                     if (DataReader["EmployeeName"] is not System.DBNull)
                     {
@@ -86,15 +84,6 @@ namespace ClubBAISTDev.TechnicalServices
 
             CommandParameter = new()
             {
-                ParameterName = "@TimeSlot",
-                SqlDbType = SqlDbType.VarChar,
-                Direction = ParameterDirection.Input,
-                SqlValue = RequestedTeeTime.TimeSlot
-            };
-            AddCommand.Parameters.Add(CommandParameter);
-
-            CommandParameter = new()
-            {
                 ParameterName = "@NumberOfPlayers",
                 SqlDbType = SqlDbType.VarChar,
                 Direction = ParameterDirection.Input,
@@ -117,15 +106,6 @@ namespace ClubBAISTDev.TechnicalServices
                 SqlDbType = SqlDbType.VarChar,
                 Direction = ParameterDirection.Input,
                 SqlValue = RequestedTeeTime.NumberOfCarts
-            };
-            AddCommand.Parameters.Add(CommandParameter);
-
-            CommandParameter = new()
-            {
-                ParameterName = "@TeeDate",
-                SqlDbType = SqlDbType.VarChar,
-                Direction = ParameterDirection.Input,
-                SqlValue = RequestedTeeTime.TeeDate.Date
             };
             AddCommand.Parameters.Add(CommandParameter);
 

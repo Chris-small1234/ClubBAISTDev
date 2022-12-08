@@ -9,15 +9,11 @@ namespace ClubBAISTDev.Domain
     {
         public int TeeTimeId { get; set; }
 
-        public DateTime TimeSlot { get; set; }
-
         public int NumberOfPlayers { get; set; }
 
         public string Phone { get; set; }
 
         public int NumberOfCarts { get; set; }
-
-        public DateTime TeeDate { get; set; }
 
         public DateTime SetTeeTime { get; set; }
 

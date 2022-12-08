@@ -50,5 +50,47 @@ namespace ClubBAISTDev.TechnicalServices
             MyDataSource.Close();
             return TeeSheet;
         }
+
+        public bool CreateDailyTeeSheet(DateTime TeeSheetDate, string TeeSheetDayOfWeek)
+        {
+            bool Confirmation = false;
+
+            SqlConnection DataSource = new();
+
+            DataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB";
+
+            DataSource.Open();
+
+            SqlCommand AddCommand = new();
+            AddCommand.Connection = DataSource;
+            AddCommand.CommandType = CommandType.StoredProcedure;
+            AddCommand.CommandText = "CreateDailyTeeSheet";
+
+            SqlParameter CommandParameter;
+
+            CommandParameter = new()
+            {
+                ParameterName = "@TeeSheetDate",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = TeeSheetDate
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@TeeSheetDayOfWeek",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = TeeSheetDayOfWeek
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            AddCommand.ExecuteNonQuery();
+            DataSource.Close();
+
+            Confirmation = true;
+            return Confirmation;
+        }
     }
 }

@@ -35,16 +35,14 @@ namespace ClubBAISTDev.Domain
             return TodayTeeTimes;
         }
 
-        public bool CreateTeeTime(DateTime TimeSlotField, int NumberOfPlayersField, string PhoneField, int NumberOfCartsField, DateTime TeeTimeDateField, DateTime SetTeeTimeField, string EmployeeNameField, int MemberIdField, int DailyTeeSheetIdField)
+        public bool CreateTeeTime(int NumberOfPlayersField, string PhoneField, int NumberOfCartsField, DateTime TeeTimeField, string EmployeeNameField, int MemberIdField, int DailyTeeSheetIdField)
         {
             TeeTime RequestedTeeTime = new()
             {
-                TimeSlot = TimeSlotField,
                 NumberOfPlayers = NumberOfPlayersField,
                 Phone = PhoneField,
                 NumberOfCarts = NumberOfCartsField,
-                TeeDate = TeeTimeDateField,
-                SetTeeTime = SetTeeTimeField,
+                SetTeeTime = TeeTimeField,
                 EmployeeName = EmployeeNameField,
                 MemberId = MemberIdField,
                 DailyTeeSheetId = DailyTeeSheetIdField
@@ -52,6 +50,15 @@ namespace ClubBAISTDev.Domain
             TeeTimes TeeTimeManager = new();
             bool Confirmation;
             Confirmation = TeeTimeManager.CreateTeeTime(RequestedTeeTime);
+
+            return Confirmation;
+        }
+
+        public bool CreateTeeSheet(DateTime TeeSheetDate, string TeeSheetDayOfWeek)
+        {
+            DailyTeeSheets DailyTeeSheetManager = new();
+            bool Confirmation;
+            Confirmation = DailyTeeSheetManager.CreateDailyTeeSheet(TeeSheetDate, TeeSheetDayOfWeek);
 
             return Confirmation;
         }
