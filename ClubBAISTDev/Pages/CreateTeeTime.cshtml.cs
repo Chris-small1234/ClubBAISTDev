@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ClubBAISTDev.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Http;
 
 namespace ClubBAISTDev.Pages
 {
@@ -56,39 +57,48 @@ namespace ClubBAISTDev.Pages
 
         public void OnPost()
         {
-            bool Confirmation;
-            switch(Submit)
+            string user = HttpContext.Session.GetString("Auth");
+            if (user != null && user != "none")
             {
-                case "SearchTeeSheet":
-                    TeeSheet = RequestDirector.GetDailyTeeSheet(TeeSheetDateField);
-                    if (TeeSheet.TeeSheetDayOfWeek == null)
-                    {
-                        Confirmation = RequestDirector.CreateTeeSheet(TeeSheetDateField, TeeSheetDateField.DayOfWeek.ToString());
+                bool Confirmation;
+                switch (Submit)
+                {
+                    case "SearchTeeSheet":
+                        TeeSheet = RequestDirector.GetDailyTeeSheet(TeeSheetDateField);
+                        if (TeeSheet.TeeSheetDayOfWeek == null)
+                        {
+                            Confirmation = RequestDirector.CreateTeeSheet(TeeSheetDateField, TeeSheetDateField.DayOfWeek.ToString());
+                            if (Confirmation)
+                            {
+                                TeeSheet = RequestDirector.GetDailyTeeSheet(TeeSheetDateField);
+                                Confirmation = false;
+                                Message = "There are no Tee Times scheduled for that day";
+                            }
+                        }
+                        else
+                        {
+                            DailyTeeSheetConfirmation = true;
+                            TodayTeeTimes = RequestDirector.GetTeeTimes(TeeSheet.DailyTeeSheetId);
+                        }
+                        break;
+
+                    case "RequestTeeTime":
+                        TeeSheet = RequestDirector.GetDailyTeeSheet(TeeSheetDateField);
+                        int DailyTeeSheetId = TeeSheet.DailyTeeSheetId;
+                        Confirmation = RequestDirector.CreateTeeTime(NumberOfPlayersField, PhoneField, NumberOfCartsField, TeeTimeField, EmployeeNameField, MemberIdField, DailyTeeSheetId);
                         if (Confirmation)
                         {
-                            TeeSheet = RequestDirector.GetDailyTeeSheet(TeeSheetDateField);
-                            Confirmation = false; 
-                            Message = "There are no Tee Times scheduled for that day";
+                            Message = "Tee Time has been booked";
                         }
-                    } else
-                    {
-                        DailyTeeSheetConfirmation = true;
-                        TodayTeeTimes = RequestDirector.GetTeeTimes(TeeSheet.DailyTeeSheetId);
-                    }
-                    break;
-
-                case "RequestTeeTime":
-                    TeeSheet = RequestDirector.GetDailyTeeSheet(TeeSheetDateField);
-                    int DailyTeeSheetId = TeeSheet.DailyTeeSheetId;
-                    Confirmation = RequestDirector.CreateTeeTime(NumberOfPlayersField, PhoneField, NumberOfCartsField, TeeTimeField, EmployeeNameField, MemberIdField, DailyTeeSheetId);
-                    if (Confirmation)
-                    {
-                        Message = "Tee Time has been booked";
-                    } else if (Message == null)
-                    {
-                        Message = "Error adding Tee Time";
-                    }
-                    break;
+                        else if (Message == null)
+                        {
+                            Message = "Error adding Tee Time";
+                        }
+                        break;
+                }
+            } else
+            {
+                Message = "User needs to login first";
             }
         }
     }
