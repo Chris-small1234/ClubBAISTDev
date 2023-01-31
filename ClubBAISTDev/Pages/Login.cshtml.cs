@@ -19,43 +19,58 @@ namespace ClubBAISTDev.Pages
 
         public string Message { get; set; }
 
+        [BindProperty]
+        public string Submit { get; set; }
+
         CBS RequestDirector = new();
 
         bool Success;
 
+        public string logout;
+
         public void OnGet()
         {
             string user = HttpContext.Session.GetString("Auth");
-            if (user == null)
+            logout = HttpContext.Session.GetString("Logout");
+            if (user == null || user == "none")
             {
                 HttpContext.Session.SetString("Auth", "none");
+                HttpContext.Session.SetString("Logout", "false");
             } else
             {
-                Message = "User already logged in!";
+                HttpContext.Session.SetString("Logout", "true");
             }
         }
 
         public IActionResult OnPost()
         {
-            string user = HttpContext.Session.GetString("Auth");
-            if (user == null || user == "none")
+            switch(Submit)
             {
-                Success = RequestDirector.Login(MemberIdField, PasswordField);
+                case "login":
+                    Success = RequestDirector.Login(MemberIdField, PasswordField);
 
-                if (Success)
-                {
-                    HttpContext.Session.SetString("Auth", MemberIdField.ToString());
-                    Message = "Member Logged In!";
-                    return new RedirectToPageResult("/Index");
-                } else
-                {
-                    Message = "Incorrect Member ID or Password";
+                    if (Success)
+                    {
+                        HttpContext.Session.SetString("Auth", MemberIdField.ToString());
+                        HttpContext.Session.SetString("Logout", "true");
+                        Message = "Member Logged In!";
+                        return new RedirectToPageResult("/Index");
+                    }
+                    else
+                    {
+                        Message = "Incorrect Member ID or Password";
+                        HttpContext.Session.SetString("Logout", "false");
+                        return null;
+                    }
+                    break;
+                case "logout":
+                    HttpContext.Session.SetString("Auth", "none");
+                    HttpContext.Session.SetString("Logout", "false");
+                    return new RedirectToPageResult("/Login");
+                    break;
+                default:
                     return null;
-                }
-            } else
-            {
-                Message = "User already logged in!";
-                return null;
+                    break;
             }
         }
     }

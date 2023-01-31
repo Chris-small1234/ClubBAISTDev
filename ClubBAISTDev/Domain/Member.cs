@@ -11,8 +11,12 @@ namespace ClubBAISTDev.Domain
 
         public string MembershipLevel { get; set; }
 
+        public string MembershipType { get; set; }
+
         public string MemberName { get; set; }
 
         public string MemberStanding { get; set; }
+
+        public string MemberEmail { get; set; }
     }
 }

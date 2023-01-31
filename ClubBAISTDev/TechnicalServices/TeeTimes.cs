@@ -151,5 +151,94 @@ namespace ClubBAISTDev.TechnicalServices
             Confirmation = true;
             return Confirmation;
         }
+
+        public TeeTime GetTeeTime (DateTime SelectedTime)
+        {
+            TeeTime MatchingTeeTime = new();
+
+            SqlConnection MyDataSource = new();
+            MyDataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB;";
+            MyDataSource.Open();
+
+            SqlCommand Command = new()
+            {
+                Connection = MyDataSource,
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "GetTeeTimeByDateTime"
+            };
+
+            SqlParameter CommandParameter;
+
+            CommandParameter = new()
+            {
+                ParameterName = "@SelectedTime",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = SelectedTime
+            };
+            Command.Parameters.Add(CommandParameter);
+
+            SqlDataReader DataReader;
+            DataReader = Command.ExecuteReader();
+
+            if (DataReader.HasRows)
+            {
+                DataReader.Read();
+                MatchingTeeTime.MemberId = (int)DataReader["MemberId"];
+                MatchingTeeTime.TeeTimeId = (int)DataReader["TeeTimeId"];
+                MatchingTeeTime.SetTeeTime = (DateTime)DataReader["TeeTime"];
+            }
+            DataReader.Close();
+            MyDataSource.Close();
+            return MatchingTeeTime;
+        }
+
+        public int GetNewTeeTimeId(int MemberId, DateTime SelectedTime)
+        {
+            int TeeTimeId = 0;
+
+            SqlConnection MyDataSource = new();
+            MyDataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB;";
+            MyDataSource.Open();
+
+            SqlCommand Command = new()
+            {
+                Connection = MyDataSource,
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "GetNewTeeTimeId"
+            };
+
+            SqlParameter CommandParameter;
+
+            CommandParameter = new()
+            {
+                ParameterName = "@MemberId",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = MemberId
+            };
+            Command.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@TeeTime",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = SelectedTime
+            };
+            Command.Parameters.Add(CommandParameter);
+
+            SqlDataReader DataReader;
+            DataReader = Command.ExecuteReader();
+
+            if (DataReader.HasRows)
+            {
+                DataReader.Read();
+                TeeTimeId = (int)DataReader["TeeTimeId"];
+            }
+            DataReader.Close();
+            MyDataSource.Close();
+            return TeeTimeId;
+        }
     }
 }

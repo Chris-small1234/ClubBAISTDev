@@ -53,11 +53,6 @@
             @if (Model.DailyTeeSheetConfirmation)
             {
                 <tr>
-                    <td>
-                        <h3>Select Date of Requested Tee Sheet:</h3>
-                    </td>
-                </tr>
-                <tr>
                     <td>Date: @Model.TeeSheet.TeeSheetDate.ToLongDateString()</td>
                     <td>Day of Week: @Model.TeeSheet.TeeSheetDayOfWeek</td>
                 </tr>
@@ -124,13 +119,6 @@
                 <td>
                     <input onclick="GetDate(window.document.ScheduleTeeTimeForm.TeeTimeField);" asp-for="TeeTimeField" name="TeeTimeField" type="time" />
                     @Html.ValidationMessage("TeeTimeField")
-                </td>
-            </tr>
-            <tr>
-                <td>Member ID:</td>
-                <td>
-                    <input asp-for="MemberIdField" name="MemberIdField" />
-                    @Html.ValidationMessage("MemberIdField")
                 </td>
             </tr>
             <tr>

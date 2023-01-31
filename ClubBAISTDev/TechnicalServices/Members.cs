@@ -62,5 +62,52 @@ namespace ClubBAISTDev.TechnicalServices
             MyDataSource.Close();
             return Success;
         }
+
+        public Member GetMember(int memberId)
+        {
+            Member CurrentMember = new();
+
+            SqlConnection MyDataSource = new();
+            MyDataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB;";
+            MyDataSource.Open();
+
+            SqlCommand Command = new()
+            {
+                Connection = MyDataSource,
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "GetMember"
+            };
+
+            SqlParameter CommandParameter;
+
+            CommandParameter = new()
+            {
+                ParameterName = "@MemberId",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = memberId
+            };
+            Command.Parameters.Add(CommandParameter);
+
+            SqlDataReader DataReader;
+            DataReader = Command.ExecuteReader();
+
+            if (DataReader.HasRows)
+            {
+                DataReader.Read();
+                CurrentMember.MemberId = (int)DataReader["MemberId"];
+                CurrentMember.MembershipLevel = (string)DataReader["MembershipLevel"];
+                if (DataReader["MembershipType"] is not System.DBNull)
+                {
+                    CurrentMember.MembershipType = (string)DataReader["MembershipType"];
+                }
+                CurrentMember.MemberName = (string)DataReader["MemberName"];
+                CurrentMember.MemberEmail = (string)DataReader["MemberEmail"];
+                CurrentMember.MemberStanding = (string)DataReader["MemberStanding"];
+            }
+            DataReader.Close();
+            MyDataSource.Close();
+            return CurrentMember;
+        }
     }
 }

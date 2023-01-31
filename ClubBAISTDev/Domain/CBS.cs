@@ -35,23 +35,144 @@ namespace ClubBAISTDev.Domain
             return TodayTeeTimes;
         }
 
-        public bool CreateTeeTime(int NumberOfPlayersField, string PhoneField, int NumberOfCartsField, DateTime TeeTimeField, string EmployeeNameField, int MemberIdField, int DailyTeeSheetIdField)
+        public ReturnItem CreateTeeTime(int NumberOfPlayersField, string PhoneField, int NumberOfCartsField, DateTime TeeTimeField, string EmployeeNameField, int MemberIdField, int DailyTeeSheetIdField, Player[] CurrentPlayers)
         {
-            TeeTime RequestedTeeTime = new()
-            {
-                NumberOfPlayers = NumberOfPlayersField,
-                Phone = PhoneField,
-                NumberOfCarts = NumberOfCartsField,
-                SetTeeTime = TeeTimeField,
-                EmployeeName = EmployeeNameField,
-                MemberId = MemberIdField,
-                DailyTeeSheetId = DailyTeeSheetIdField
-            };
-            TeeTimes TeeTimeManager = new();
-            bool Confirmation;
-            Confirmation = TeeTimeManager.CreateTeeTime(RequestedTeeTime);
+            Members MemberManager = new();
+            Member CurrentMember = MemberManager.GetMember(MemberIdField);
 
-            return Confirmation;
+            Players PlayerManager = new();
+
+            TeeTimes TeeTimeManager = new();
+            ReturnItem Return = new();
+            TeeTime ExistingTeeTime = TeeTimeManager.GetTeeTime(TeeTimeField);
+            if (CurrentPlayers.Length > 3)
+            {
+                Return.Result = false;
+                Return.Message = "There can only be up to 4 players for any given Tee Time";
+            } else
+            {
+                // Check for exsiting tee time
+                if (ExistingTeeTime.TeeTimeId == 0)
+                {
+                    TeeTime RequestedTeeTime = new()
+                    {
+                        NumberOfPlayers = NumberOfPlayersField,
+                        Phone = PhoneField,
+                        NumberOfCarts = NumberOfCartsField,
+                        SetTeeTime = TeeTimeField,
+                        EmployeeName = EmployeeNameField,
+                        MemberId = MemberIdField,
+                        DailyTeeSheetId = DailyTeeSheetIdField
+                    };
+                    DateTime Today = DateTime.Today;
+                    switch (CurrentMember.MembershipLevel)
+                    {
+                        // Check membership level
+                        case "G":
+                            Return.Result = TeeTimeManager.CreateTeeTime(RequestedTeeTime);
+                            Return.Message = "Tee Time Successfully Scheduled!";
+                            break;
+
+                        case "S":
+                            // Check for DayOfWeek
+                            if (RequestedTeeTime.SetTeeTime.DayOfWeek.ToString() == "Saturday" || RequestedTeeTime.SetTeeTime.DayOfWeek.ToString() == "Sunday")
+                            {
+                                // Check for Time based on day
+                                DateTime eleven = new DateTime(Today.Year, Today.Month, Today.Day, 11, 0, 0);
+                                if (RequestedTeeTime.SetTeeTime.TimeOfDay > eleven.TimeOfDay)
+                                {
+                                    Return.Result = TeeTimeManager.CreateTeeTime(RequestedTeeTime);
+                                    Return.Message = "Tee Time Successfully Scheduled!";
+                                } else
+                                {
+                                    Return.Result = false;
+                                    Return.Message = "Silver members cannot schedule tee time before 11 AM on Weekends";
+                                }
+                            } else {
+                                // Check for Time based on day
+                                DateTime three = new DateTime(Today.Year, Today.Month, Today.Day, 15, 0, 0);
+                                DateTime fivethirty = new DateTime(Today.Year, Today.Month, Today.Day, 17, 30, 0);
+                                if (RequestedTeeTime.SetTeeTime.TimeOfDay < three.TimeOfDay || RequestedTeeTime.SetTeeTime.TimeOfDay > fivethirty.TimeOfDay)
+                                {
+                                    Return.Result = TeeTimeManager.CreateTeeTime(RequestedTeeTime);
+                                    Return.Message = "Tee Time Successfully Scheduled!";
+                                }
+                                else
+                                {
+                                    Return.Result = false;
+                                    Return.Message = "Silver members cannot schedule tee time after 3:00 PM and before 5:30 PM on weekdays";
+                                }
+                            }
+                            break;
+
+                        case "B":
+                            // Check for DayOfWeek
+                            if (RequestedTeeTime.SetTeeTime.DayOfWeek.ToString() == "Saturday" || RequestedTeeTime.SetTeeTime.DayOfWeek.ToString() == "Sunday")
+                            {
+                                // Check for Time based on day
+                                DateTime one = new DateTime(Today.Year, Today.Month, Today.Day, 13, 0, 0);
+                                if (RequestedTeeTime.SetTeeTime.TimeOfDay > one.TimeOfDay)
+                                {
+                                    Return.Result = TeeTimeManager.CreateTeeTime(RequestedTeeTime);
+                                    Return.Message = "Tee Time Successfully Scheduled!";
+                                }
+                                else
+                                {
+                                    Return.Result = false;
+                                    Return.Message = "Bronze members cannot schedule tee time before 11 AM on weekends";
+                                }
+                            }
+                            else
+                            {
+                                // Check for Time based on day
+                                DateTime three = new DateTime(Today.Year, Today.Month, Today.Day, 15, 0, 0);
+                                DateTime six = new DateTime(Today.Year, Today.Month, Today.Day, 18, 0, 0);
+                                if (RequestedTeeTime.SetTeeTime.TimeOfDay < three.TimeOfDay || RequestedTeeTime.SetTeeTime.TimeOfDay > six.TimeOfDay)
+                                {
+                                    Return.Result = TeeTimeManager.CreateTeeTime(RequestedTeeTime);
+                                    Return.Message = "Tee Time Successfully Scheduled!";
+                                }
+                                else
+                                {
+                                    Return.Result = false;
+                                    Return.Message = "Bronze members cannot schedule tee time after 3:00 PM and before 6:00 PM on weekdays";
+                                }
+                            }
+                            break;
+
+                        case "C":
+                            Return.Result = false;
+                            Return.Message = "Copper members cannot schedule tee times";
+                            break;
+
+                        default:
+                            Return.Result = false;
+                            Return.Message = "Something happened, please try again";
+                            break;
+                    }
+                } else
+                {
+                    Return.Result = false;
+                    Return.Message = "There is an existing tee time booked at that time, please choose a different time or day";
+                }
+                if (Return.Result == true)
+                {
+                    int TeeTimeId = TeeTimeManager.GetNewTeeTimeId(MemberIdField, TeeTimeField);
+                    foreach(Player player in CurrentPlayers)
+                    {
+                        if (player.PlayerName != null)
+                        {
+                            Return.Result = PlayerManager.CreatePlayer(TeeTimeId, player.MemberId, player.PlayerName);
+                            if (Return.Result == false)
+                            {
+                                Return.Message = "Error creating Player";
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return Return;
         }
 
         public bool CreateTeeSheet(DateTime TeeSheetDate, string TeeSheetDayOfWeek)

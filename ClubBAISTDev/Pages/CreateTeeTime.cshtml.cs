@@ -35,6 +35,30 @@ namespace ClubBAISTDev.Pages
         [BindProperty]
         public int DailyTeeSheetIdField { get; set; }
 
+        [BindProperty]
+        public string  Player1NameField { get; set; }
+
+        [BindProperty]
+        public int Player1IdField { get; set; }
+
+        [BindProperty]
+        public string Player2NameField { get; set; }
+
+        [BindProperty]
+        public int Player2IdField { get; set; }
+
+        [BindProperty]
+        public string Player3NameField { get; set; }
+
+        [BindProperty]
+        public int Player3IdField { get; set; }
+
+        [BindProperty]
+        public string Player4NameField { get; set; }
+
+        [BindProperty]
+        public int Player4IdField { get; set; }
+
         public DailyTeeSheet TeeSheet { get; set; }
 
         public List<TeeTime> TodayTeeTimes { get; set; }
@@ -61,6 +85,7 @@ namespace ClubBAISTDev.Pages
             if (user != null && user != "none")
             {
                 bool Confirmation;
+                ReturnItem Return = new();
                 switch (Submit)
                 {
                     case "SearchTeeSheet":
@@ -83,17 +108,54 @@ namespace ClubBAISTDev.Pages
                         break;
 
                     case "RequestTeeTime":
+                        int[] times = { 00, 07, 15, 22, 30, 37, 45, 52 };
                         TeeSheet = RequestDirector.GetDailyTeeSheet(TeeSheetDateField);
                         int DailyTeeSheetId = TeeSheet.DailyTeeSheetId;
-                        Confirmation = RequestDirector.CreateTeeTime(NumberOfPlayersField, PhoneField, NumberOfCartsField, TeeTimeField, EmployeeNameField, MemberIdField, DailyTeeSheetId);
-                        if (Confirmation)
-                        {
-                            Message = "Tee Time has been booked";
+                        int MemberId = int.Parse(user);
+                        bool correct = false;
+                        foreach(int number in times) {
+                            if (number == TeeTimeField.TimeOfDay.Minutes)
+                            {
+                                correct = true;
+                            }
                         }
-                        else if (Message == null)
+                        if (correct)
                         {
-                            Message = "Error adding Tee Time";
+                            Player Player1 = new()
+                            {
+                                MemberId = Player1IdField,
+                                PlayerName = Player1NameField
+                            };
+                            Player Player2 = new()
+                            {
+                                MemberId = Player2IdField,
+                                PlayerName = Player2NameField
+                            };
+                            Player Player3 = new()
+                            {
+                                MemberId = Player3IdField,
+                                PlayerName = Player3NameField
+                            };
+                            Player Player4 = new()
+                            {
+                                MemberId = Player4IdField,
+                                PlayerName = Player4NameField
+                            };
+                            Player[] PlayingPlayers = { Player1, Player2, Player2, Player3, Player4 };
+                            Return = RequestDirector.CreateTeeTime(NumberOfPlayersField, PhoneField, NumberOfCartsField, TeeTimeField, EmployeeNameField, MemberId, DailyTeeSheetId, PlayingPlayers);
+                            if (Return.Result)
+                            {
+                                Message = Return.Message;
+                            }
+                            else if (Message == null)
+                            {
+                                Message = Return.Message;
+                            }
+                        } else
+                        {
+                            Message = "Tee Time must be in an increment of 7 or 8 minutes";
                         }
+
                         break;
                 }
             } else
