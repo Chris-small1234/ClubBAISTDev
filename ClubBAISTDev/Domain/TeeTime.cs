@@ -24,5 +24,7 @@ namespace ClubBAISTDev.Domain
         public int DailyTeeSheetId { get; set; }
 
         public string MemberName { get; set; }
+
+        public List<Player> Players { get; set; }
     }
 }

@@ -36,34 +36,24 @@ namespace ClubBAISTDev.Pages
         public int DailyTeeSheetIdField { get; set; }
 
         [BindProperty]
-        public string  Player1NameField { get; set; }
+        public int Player1ListEntry { get; set; }
 
         [BindProperty]
-        public int Player1IdField { get; set; }
+        public int Player2ListEntry { get; set; }
 
         [BindProperty]
-        public string Player2NameField { get; set; }
+        public int Player3ListEntry { get; set; }
 
         [BindProperty]
-        public int Player2IdField { get; set; }
-
-        [BindProperty]
-        public string Player3NameField { get; set; }
-
-        [BindProperty]
-        public int Player3IdField { get; set; }
-
-        [BindProperty]
-        public string Player4NameField { get; set; }
-
-        [BindProperty]
-        public int Player4IdField { get; set; }
+        public int Player4ListEntry { get; set; }
 
         public DailyTeeSheet TeeSheet { get; set; }
 
         public List<TeeTime> TodayTeeTimes { get; set; }
 
         public Member ListedMember { get; set; }
+
+        public List<Member> Members { get; set; }
 
         [BindProperty]
         public string Submit { get; set; }
@@ -76,11 +66,12 @@ namespace ClubBAISTDev.Pages
 
         public void OnGet()
         {
-
+            Members = RequestDirector.GetMembers();
         }
 
         public void OnPost()
         {
+            Members = RequestDirector.GetMembers();
             string user = HttpContext.Session.GetString("Auth");
             if (user != null && user != "none")
             {
@@ -89,6 +80,7 @@ namespace ClubBAISTDev.Pages
                 switch (Submit)
                 {
                     case "SearchTeeSheet":
+                        Members = RequestDirector.GetMembers();
                         TeeSheet = RequestDirector.GetDailyTeeSheet(TeeSheetDateField);
                         if (TeeSheet.TeeSheetDayOfWeek == null)
                         {
@@ -121,28 +113,22 @@ namespace ClubBAISTDev.Pages
                         }
                         if (correct)
                         {
-                            Player Player1 = new()
+                            int[] PlayingMemberIds = { Player1ListEntry, Player2ListEntry, Player3ListEntry, Player4ListEntry };
+                            List<Player> Players = new();
+                            for(int i = 0; i < PlayingMemberIds.Length; i++)
                             {
-                                MemberId = Player1IdField,
-                                PlayerName = Player1NameField
-                            };
-                            Player Player2 = new()
-                            {
-                                MemberId = Player2IdField,
-                                PlayerName = Player2NameField
-                            };
-                            Player Player3 = new()
-                            {
-                                MemberId = Player3IdField,
-                                PlayerName = Player3NameField
-                            };
-                            Player Player4 = new()
-                            {
-                                MemberId = Player4IdField,
-                                PlayerName = Player4NameField
-                            };
-                            Player[] PlayingPlayers = { Player1, Player2, Player2, Player3, Player4 };
-                            Return = RequestDirector.CreateTeeTime(NumberOfPlayersField, PhoneField, NumberOfCartsField, TeeTimeField, EmployeeNameField, MemberId, DailyTeeSheetId, PlayingPlayers);
+                                if (PlayingMemberIds[i] > 0)
+                                {
+                                    Member CurrentMember = RequestDirector.GetMember(PlayingMemberIds[i]);
+                                    Player NewPlayer = new()
+                                    {
+                                        MemberId = CurrentMember.MemberId,
+                                        PlayerName = CurrentMember.MemberName,
+                                    };
+                                    Players.Add(NewPlayer);
+                                }
+                            }
+                            Return = RequestDirector.CreateTeeTime(NumberOfPlayersField, PhoneField, NumberOfCartsField, TeeTimeField, EmployeeNameField, MemberId, DailyTeeSheetId, Players);
                             if (Return.Result)
                             {
                                 Message = Return.Message;

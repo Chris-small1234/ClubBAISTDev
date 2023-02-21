@@ -68,20 +68,29 @@
                                 <td>Number of Carts</td>
                                 <td>Date</td>
                                 <td>Scheduled Time</td>
+                                <td>Players</td>
                                 <td>Employee Name (If Applicable)</td>
                             </tr>
                             @foreach (var teeTime in Model.TodayTeeTimes)
                             {
-                        <tr>
-                            <td>@teeTime.SetTeeTime.ToShortTimeString()</td>
-                            <td>@teeTime.MemberName</td>
-                            <td>@teeTime.NumberOfPlayers</td>
-                            <td>@teeTime.Phone</td>
-                            <td>@teeTime.NumberOfCarts</td>
-                            <td>@teeTime.SetTeeTime.ToShortDateString()</td>
-                            <td>@teeTime.SetTeeTime.ToShortTimeString()</td>
-                            <td>@teeTime.EmployeeName</td>
-                        </tr>
+                                <tr>
+                                    <td>@teeTime.SetTeeTime.ToShortTimeString()</td>
+                                    <td>@teeTime.MemberName</td>
+                                    <td>@teeTime.NumberOfPlayers</td>
+                                    <td>@teeTime.Phone</td>
+                                    <td>@teeTime.NumberOfCarts</td>
+                                    <td>@teeTime.SetTeeTime.ToShortDateString()</td>
+                                    <td>@teeTime.SetTeeTime.ToShortTimeString()</td>
+                                    <td>
+                                        <table>
+                                            @foreach (var player in teeTime.Players)
+                                            {
+                                                <tr><td>@player.PlayerName</td></tr>
+                                            }
+                                        </table>
+                                    </td>
+                                    <td>@teeTime.EmployeeName</td>
+                                </tr>
                             }
                         </table>
                     </td>
@@ -94,10 +103,51 @@
                 </td>
             </tr>
             <tr>
-                <td>Number of Players:</td>
+                <td>Player 1:</td>
                 <td>
-                    <input asp-for="NumberOfPlayersField" name="NumberOfPlayersField" />
-                    @Html.ValidationMessage("NumberOfPlayersField")
+                    <input type="text" name="Player1ListEntry" list="Player1List" />
+                    <datalist id="Player1List">
+                        @foreach (var member in Model.Members)
+                        {
+                            <option value="@member.MemberId">@member.MemberName</option>
+                        }
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>Player 2:</td>
+                <td>
+                    <input type="text" name="Player2ListEntry" list="Player2List" />
+                    <datalist id="Player2List">
+                        @foreach (var member in Model.Members)
+                        {
+                            <option value="@member.MemberId">@member.MemberName</option>
+                        }
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>Player 3:</td>
+                <td>
+                    <input type="text" name="Player3ListEntry" list="Player3List" />
+                    <datalist id="Player3List">
+                        @foreach (var member in Model.Members)
+                        {
+                            <option value="@member.MemberId">@member.MemberName</option>
+                        }
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>Player 4:</td>
+                <td>
+                    <input type="text" name="Player4ListEntry" list="Player4List" />
+                    <datalist id="Player4List">
+                        @foreach (var member in Model.Members)
+                        {
+                            <option value="@member.MemberId">@member.MemberName</option>
+                        }
+                    </datalist>
                 </td>
             </tr>
             <tr>

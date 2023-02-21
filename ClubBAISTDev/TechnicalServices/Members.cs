@@ -109,5 +109,39 @@ namespace ClubBAISTDev.TechnicalServices
             MyDataSource.Close();
             return CurrentMember;
         }
+
+        public List<Member> GetMembers()
+        {
+            List<Member> AllMembers = new();
+
+            SqlConnection MyDataSource = new();
+            MyDataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB;";
+            MyDataSource.Open();
+
+            SqlCommand Command = new()
+            {
+                Connection = MyDataSource,
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "GetMembers"
+            };
+
+
+            SqlDataReader DataReader;
+            DataReader = Command.ExecuteReader();
+
+            if (DataReader.HasRows)
+            {
+                while (DataReader.Read())
+                {
+                    Member AMember = new();
+                    AMember.MemberId = (int)DataReader["MemberId"];
+                    AMember.MemberName = (string)DataReader["MemberName"];
+                    AllMembers.Add(AMember);
+                }
+            }
+            DataReader.Close();
+            MyDataSource.Close();
+            return AllMembers;
+        }
     }
 }
