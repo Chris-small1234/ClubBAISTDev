@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClubBAISTDev.Domain;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,8 +11,6 @@ namespace ClubBAISTDev.Pages
 {
     public class RequestStandingTeeTimeModel : PageModel
     {
-        [BindProperty]
-        public int MemberIdField { get; set; }
         [BindProperty]
         public string MemberNameField { get; set; }
         [BindProperty]
@@ -22,6 +21,14 @@ namespace ClubBAISTDev.Pages
         public DateTime RequestedStartDateField { get; set; }
         [BindProperty]
         public DateTime RequestedEndDateField { get; set; }
+        [BindProperty]
+        public string Player2NameField { get; set; }
+        [BindProperty]
+        public string Player3NameField { get; set; }
+        [BindProperty]
+        public string Player4NameField { get; set; }
+
+        public List<Member> Members { get; set; }
 
         public string Message { get; set; }
 
@@ -30,21 +37,38 @@ namespace ClubBAISTDev.Pages
 
         public void OnGet()
         {
+            Members = RequestDirector.GetMembers();
         }
 
         public void OnPost()
         {
+            Members = RequestDirector.GetMembers();
             bool Confirmation;
+            string user = HttpContext.Session.GetString("Auth");
 
-            Confirmation = RequestDirector.CreateStandingTeeTimeRequest(MemberIdField, RequestedTeeTimeField, RequestedDayOfWeekField, RequestedStartDateField, RequestedEndDateField, false);
+            if (user != null && user != "none")
+            {
+                Member LoggedInMember = RequestDirector.GetMember(int.Parse(user));
+                if (LoggedInMember.MembershipType == "Stakeholder")
+                {
+                    string Player1Name = LoggedInMember.MemberName;
+                    Confirmation = RequestDirector.CreateStandingTeeTimeRequest(LoggedInMember.MemberId, RequestedTeeTimeField, RequestedDayOfWeekField, RequestedStartDateField, RequestedEndDateField, false, Player1Name, Player2NameField, Player3NameField, Player4NameField);
 
-            if (Confirmation)
+                    if (Confirmation)
+                    {
+                        Message = "Standing Tee Time Request Submitted!";
+                    }
+                    else
+                    {
+                        Message = "Error submitting standing tee time request, please try again";
+                    }
+                } else
+                {
+                    Message = "Member needs to be a stakeholder to make a standing tee time request";
+                }
+            } else
             {
-                Message = "Standing Tee Time Request Submitted!";
-            }
-            else
-            {
-                Message = "Error submitting standing tee time request, please try again";
+                Message = "User needs to login first";
             }
         }
     }

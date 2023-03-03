@@ -82,6 +82,42 @@ namespace ClubBAISTDev.TechnicalServices
             };
             AddCommand.Parameters.Add(CommandParameter);
 
+            CommandParameter = new()
+            {
+                ParameterName = "@Player1Name",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = RequestedStandingTeeTime.Player1Name
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@Player2Name",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = RequestedStandingTeeTime.Player2Name
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@Player3Name",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = RequestedStandingTeeTime.Player3Name
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@Player4Name",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = RequestedStandingTeeTime.Player4Name
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
             AddCommand.ExecuteNonQuery();
             DataSource.Close();
 

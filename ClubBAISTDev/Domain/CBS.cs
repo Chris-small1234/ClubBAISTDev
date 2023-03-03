@@ -183,16 +183,20 @@ namespace ClubBAISTDev.Domain
             return Confirmation;
         }
 
-        public bool CreateStandingTeeTimeRequest(int MemberIdField, DateTime RequestedTeeTimeField, string DayOfWeekField, DateTime StartDateField, DateTime EndDateField, bool ApprovedField)
+        public bool CreateStandingTeeTimeRequest(int MemberId, DateTime RequestedTeeTimeField, string DayOfWeekField, DateTime StartDateField, DateTime EndDateField, bool ApprovedField, string Player1Name, string Player2Name, string Player3Name, string Player4Name)
         {
             StandingTeeTimeRequest RequestedStandingTeeTime = new()
             {
-                MemberId = MemberIdField,
+                MemberId = MemberId,
                 RequestedTeeTime = RequestedTeeTimeField,
                 DayOfWeek = DayOfWeekField,
                 StartDate = StartDateField,
                 EndDate = EndDateField,
-                Approved = ApprovedField
+                Approved = ApprovedField,
+                Player1Name = Player1Name,
+                Player2Name = Player2Name,
+                Player3Name = Player3Name,
+                Player4Name = Player4Name
             };
             StandingTeeTimeRequests StandingTeeTimeManager = new();
             bool Confirmation;

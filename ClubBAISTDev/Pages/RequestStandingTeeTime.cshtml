@@ -23,16 +23,6 @@
                 </td>
             </tr>
             <tr>
-                <td>Member ID:</td>
-                <td>
-                    <input asp-for="MemberIdField" name="MemberIdField" />
-                </td>
-                <td>Member Name:</td>
-                <td>
-                    <input asp-for="MemberNameField" name="MemberNameField" />
-                </td>
-            </tr>
-            <tr>
                 <td>Requested Day Of Week:</td>
                 <td>
                     <input asp-for="RequestedDayOfWeekField" name="RequestedDayOfWeekField" />
@@ -54,6 +44,42 @@
                 <td>Requested End Date:</td>
                 <td>
                     <input onclick="GetDate(window.document.RequestStandingTeeTimeForm.RequestedEndDateField);" type="date" asp-for="RequestedEndDateField" name="RequestedEndDateField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Player 2:</td>
+                <td>
+                    <input type="text" name="Player2NameField" list="Player2List" />
+                    <datalist id="Player2List">
+                        @foreach (var member in Model.Members)
+                        {
+                            <option value="@member.MemberName">@member.MemberName</option>
+                        }
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>Player 3:</td>
+                <td>
+                    <input type="text" name="Player3NameField" list="Player2List" />
+                    <datalist id="Player2List">
+                        @foreach (var member in Model.Members)
+                        {
+                            <option value="@member.MemberName">@member.MemberName</option>
+                        }
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>Player 4:</td>
+                <td>
+                    <input type="text" name="Player4NameField" list="Player2List" />
+                    <datalist id="Player2List">
+                        @foreach (var member in Model.Members)
+                        {
+                            <option value="@member.MemberName">@member.MemberName</option>
+                        }
+                    </datalist>
                 </td>
             </tr>
             <tr>
