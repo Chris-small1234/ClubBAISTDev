@@ -124,5 +124,126 @@ namespace ClubBAISTDev.TechnicalServices
             Confirmation = true;
             return Confirmation;
         }
+
+        public bool CancelStandingTeeTimeRequest(int MemberId)
+        {
+            bool Confirmation = false;
+
+            SqlConnection DataSource = new();
+
+            DataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB";
+
+            DataSource.Open();
+
+            SqlCommand AddCommand = new();
+            AddCommand.Connection = DataSource;
+            AddCommand.CommandType = CommandType.StoredProcedure;
+            AddCommand.CommandText = "CancelStandingTeeTimeRequest";
+
+            SqlParameter CommandParameter;
+
+            CommandParameter = new()
+            {
+                ParameterName = "@MemberId",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = MemberId
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            AddCommand.ExecuteNonQuery();
+            DataSource.Close();
+
+            Confirmation = true;
+            return Confirmation;
+        }
+
+        public List<StandingTeeTimeRequest> GetStandingTeeTimeRequests()
+        {
+            List<StandingTeeTimeRequest> AllStandingTeeTimeRequests = new();
+
+            SqlConnection MyDataSource = new();
+            MyDataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB;";
+            MyDataSource.Open();
+
+            SqlCommand Command = new()
+            {
+                Connection = MyDataSource,
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "GetStandingTeeTimeRequests"
+            };
+
+
+            SqlDataReader DataReader;
+            DataReader = Command.ExecuteReader();
+
+            if (DataReader.HasRows)
+            {
+                while (DataReader.Read())
+                {
+                    StandingTeeTimeRequest AStandingTeeTimeRequest = new();
+                    AStandingTeeTimeRequest.MemberId = (int)DataReader["MemberId"];
+                    AStandingTeeTimeRequest.RequestedTeeTime = (DateTime)DataReader["TeeTime"];
+                    AStandingTeeTimeRequest.DayOfWeek = (string)DataReader["TeeTimeDayOfWeek"];
+                    AStandingTeeTimeRequest.StartDate = (DateTime)DataReader["StartDate"];
+                    AStandingTeeTimeRequest.EndDate = (DateTime)DataReader["EndDate"];
+                    AStandingTeeTimeRequest.Approved = (bool)DataReader["Approved"];
+                    AStandingTeeTimeRequest.Player1Name = (string)DataReader["Player1Name"];
+                    AStandingTeeTimeRequest.Player2Name = (string)DataReader["Player2Name"];
+                    AStandingTeeTimeRequest.Player3Name = (string)DataReader["Player3Name"];
+                    AStandingTeeTimeRequest.Player4Name = (string)DataReader["Player4Name"];
+                    AllStandingTeeTimeRequests.Add(AStandingTeeTimeRequest);
+                }
+            }
+            DataReader.Close();
+            MyDataSource.Close();
+            return AllStandingTeeTimeRequests;
+        }
+
+        public StandingTeeTimeRequest GetStandingTeeTimeRequestByMemberId(int MemberId)
+        {
+            StandingTeeTimeRequest CurrentStandingTeeTimeRequest = new();
+
+            SqlConnection MyDataSource = new();
+            MyDataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB;";
+            MyDataSource.Open();
+
+            SqlCommand Command = new()
+            {
+                Connection = MyDataSource,
+                CommandType = CommandType.StoredProcedure,
+                CommandText = "GetStandingTeeTimeRequest"
+            };
+
+            SqlParameter CommandParameter;
+
+            CommandParameter = new()
+            {
+                ParameterName = "@MemberId",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = MemberId
+            };
+            Command.Parameters.Add(CommandParameter);
+
+            SqlDataReader DataReader;
+            DataReader = Command.ExecuteReader();
+
+            if (DataReader.HasRows)
+            {
+                DataReader.Read();
+                CurrentStandingTeeTimeRequest.MemberId = (int)DataReader["MemberId"];
+                CurrentStandingTeeTimeRequest.RequestedTeeTime = (DateTime)DataReader["TeeTime"];
+                CurrentStandingTeeTimeRequest.DayOfWeek = (string)DataReader["TeeTimeDayOfWeek"];
+                CurrentStandingTeeTimeRequest.StartDate = (DateTime)DataReader["StartDate"];
+                CurrentStandingTeeTimeRequest.EndDate = (DateTime)DataReader["EndDate"];
+                CurrentStandingTeeTimeRequest.Player2Name = (string)DataReader["Player2Name"];
+                CurrentStandingTeeTimeRequest.Player3Name = (string)DataReader["Player3Name"];
+                CurrentStandingTeeTimeRequest.Player4Name = (string)DataReader["Player4Name"];
+            }
+            DataReader.Close();
+            MyDataSource.Close();
+            return CurrentStandingTeeTimeRequest;
+        }
     }
 }

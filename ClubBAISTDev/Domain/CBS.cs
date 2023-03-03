@@ -222,5 +222,38 @@ namespace ClubBAISTDev.Domain
 
             return CurrentMember;
         }
+
+        public bool CancelStandingTeeTimeRequest(int memberId)
+        {
+            bool Confirmation;
+
+            StandingTeeTimeRequests StandingTeeTimeRequestManager = new();
+
+            Confirmation = StandingTeeTimeRequestManager.CancelStandingTeeTimeRequest(memberId);
+
+            return Confirmation;
+        }
+
+        public List<StandingTeeTimeRequest> GetStandingTeeTimeRequests()
+        {
+            List<StandingTeeTimeRequest> AllStandingTeeTimeRequests;
+
+            StandingTeeTimeRequests StandingTeeTimeRequestManager = new();
+
+            AllStandingTeeTimeRequests = StandingTeeTimeRequestManager.GetStandingTeeTimeRequests();
+
+            return AllStandingTeeTimeRequests;
+        }
+
+        public StandingTeeTimeRequest GetStandingTeeTimeRequestByMemberId(int memberId)
+        {
+            StandingTeeTimeRequest CurrentStandingTeeTimeRequest;
+
+            StandingTeeTimeRequests StandingTeeTimeRequestManager = new();
+
+            CurrentStandingTeeTimeRequest = StandingTeeTimeRequestManager.GetStandingTeeTimeRequestByMemberId(memberId);
+
+            return CurrentStandingTeeTimeRequest;
+        }
     }
 }

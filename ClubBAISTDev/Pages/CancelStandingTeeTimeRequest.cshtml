@@ -1,0 +1,68 @@
+﻿@page
+@model ClubBAISTDev.Pages.CancelStandingTeeTimeRequestModel
+@{
+    ViewData["Title"] = "Cancel Standing Tee Time Request";
+}
+<div>
+    <h1>Cancel Standing Tee Time Request</h1>
+
+    <form method="post" name="CancelStandingTeeTimeForm">
+        <table>
+            <tr>
+                <td>Standing Tee Time For You:</td>
+                <td>
+                    <input type="text" name="StandingTeeTimeMemberIdField" list="StandingTeeTimeRequests" />
+                    <datalist id="StandingTeeTimeRequests">
+                        @foreach (var standingTeeTimes in Model.StandingTeeTimeRequests)
+                        {
+                            <option value="@standingTeeTimes.MemberId">@standingTeeTimes.DayOfWeek</option>
+                        }
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit" name="Submit" value="GetStandingTeeTime">Get</button>
+                </td>
+            </tr>
+            @if (Model.StandingTeeTimeRequestField != null)
+            {
+                <tr>
+                    <td>Requested Day Of Week:</td>
+                    <td>@Model.StandingTeeTimeRequestField.DayOfWeek</td>
+                </tr>
+                <tr>
+                    <td>Requested Tee Time: (+- 30 min)</td>
+                    <td>@Model.StandingTeeTimeRequestField.RequestedTeeTime.ToShortTimeString()</td>
+                </tr>
+                <tr>
+                    <td>Requested Start Date:</td>
+                    <td>@Model.StandingTeeTimeRequestField.StartDate.ToShortDateString()</td>
+                </tr>
+                <tr>
+                    <td>Requested End Date:</td>
+                    <td>@Model.StandingTeeTimeRequestField.EndDate.ToShortDateString()</td>
+                </tr>
+                <tr>
+                    <td>Player 2:</td>
+                    <td>@Model.StandingTeeTimeRequestField.Player2Name</td>
+                </tr>
+                <tr>
+                    <td>Player 3:</td>
+                    <td>@Model.StandingTeeTimeRequestField.Player3Name</td>
+                </tr>
+                <tr>
+                    <td>Player 4:</td>
+                    <td>@Model.StandingTeeTimeRequestField.Player4Name</td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit" name="Submit" value="CancelStandingTeeTime">Cancel</button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </form>
+    <br />
+    @Model.Message
+</div>
