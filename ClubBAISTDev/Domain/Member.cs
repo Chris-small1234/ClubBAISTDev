@@ -18,5 +18,7 @@ namespace ClubBAISTDev.Domain
         public string MemberStanding { get; set; }
 
         public string MemberEmail { get; set; }
+
+        public decimal Balance { get; set; }
     }
 }

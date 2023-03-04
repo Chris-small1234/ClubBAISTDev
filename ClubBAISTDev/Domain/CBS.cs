@@ -255,5 +255,28 @@ namespace ClubBAISTDev.Domain
 
             return CurrentStandingTeeTimeRequest;
         }
+
+        public List<Charge> GetChargesByMember(int memberId)
+        {
+            List<Charge> AllCharges;
+
+            Charges ChargeManager = new();
+
+            AllCharges = ChargeManager.GetChargesByMember(memberId);
+
+            List<Charge> AllRoundedCharges = new();
+
+            foreach(Charge element in AllCharges)
+            {
+                Charge RoundedCharge = new();
+                RoundedCharge.ChargeId = element.ChargeId;
+                RoundedCharge.Amount = Math.Round(element.Amount, 2);
+                RoundedCharge.WhenCharged = element.WhenCharged;
+                RoundedCharge.WhenBooked = element.WhenBooked;
+                AllRoundedCharges.Add(RoundedCharge);
+            }
+
+            return AllRoundedCharges;
+        }
     }
 }
