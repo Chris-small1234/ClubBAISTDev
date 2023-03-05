@@ -143,5 +143,92 @@ namespace ClubBAISTDev.TechnicalServices
             MyDataSource.Close();
             return AllMembers;
         }
+
+        public bool CreateMember(Member NewMember, string MemberPassword)
+        {
+            bool Confirmation = false;
+
+            SqlConnection DataSource = new();
+
+            DataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB";
+
+            DataSource.Open();
+
+            SqlCommand AddCommand = new();
+            AddCommand.Connection = DataSource;
+            AddCommand.CommandType = CommandType.StoredProcedure;
+            AddCommand.CommandText = "CreateMember";
+
+            SqlParameter CommandParameter;
+
+            CommandParameter = new()
+            {
+                ParameterName = "@MemberPassword",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = MemberPassword
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@MembershipLevel",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = NewMember.MembershipLevel
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@MembershipType",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = NewMember.MembershipType
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@MemberName",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = NewMember.MemberName
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@MemberEmail",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = NewMember.MemberEmail
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@MemberStanding",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = NewMember.MemberStanding
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            CommandParameter = new()
+            {
+                ParameterName = "@Balance",
+                SqlDbType = SqlDbType.VarChar,
+                Direction = ParameterDirection.Input,
+                SqlValue = NewMember.Balance
+            };
+            AddCommand.Parameters.Add(CommandParameter);
+
+            AddCommand.ExecuteNonQuery();
+            DataSource.Close();
+
+            Confirmation = true;
+            return Confirmation;
+        }
     }
 }

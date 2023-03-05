@@ -1,0 +1,122 @@
+﻿@page
+@model ClubBAISTDev.Pages.CreateMembershipApplicationModel
+@{
+    ViewData["Title"] = "Create Membership Application";
+}
+<div>
+    <h1>Create Membership Application</h1>
+
+    <form method="post" name="CreateMembershipApplicationForm">
+        <table>
+            <tr>
+                <td>FirstName:</td>
+                <td>
+                    <input asp-for="FirstNameField" name="FirstNameField" />
+                </td>
+            </tr>
+            <tr>
+                <td>LastName:</td>
+                <td>
+                    <input asp-for="LastNameField" name="LastNameField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Address:</td>
+                <td>
+                    <input asp-for="AddressField" name="AddressField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Postal Code:</td>
+                <td>
+                    <input asp-for="PostalCodeField" name="PostalCodeField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Phone Number:</td>
+                <td>
+                    <input asp-for="PhoneNumberField" name="PhoneNumberField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Alternate Phone Number:</td>
+                <td>
+                    <input asp-for="AlternatePhoneNumberField" name="AlternatePhoneNumberField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>
+                    <input asp-for="EmailField" name="EmailField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Date of Birth:</td>
+                <td>
+                    <input asp-for="DateOfBirthField" name="DateOfBirthField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Occupation:</td>
+                <td>
+                    <input asp-for="OccupationField" name="OccupationField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Company Name:</td>
+                <td>
+                    <input asp-for="CompanyNameField" name="CompanyNameField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Company Address:</td>
+                <td>
+                    <input asp-for="CompanyAddressField" name="CompanyAddressField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Company Postal Code:</td>
+                <td>
+                    <input asp-for="CompanyPostalCodeField" name="CompanyPostalCodeField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Company Phone Number:</td>
+                <td>
+                    <input asp-for="CompanyPhoneNumberField" name="CompanyPhoneNumberField" />
+                </td>
+            </tr>
+            <tr>
+                <td>Reference 1:</td>
+                <td>
+                    <input type="text" name="Reference1Field" list="Reference1List" />
+                    <datalist id="Reference1List">
+                        @foreach (var member in Model.Members)
+                        {
+                            <option value="@member.MemberId">@member.MemberName</option>
+                        }
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>Reference 2:</td>
+                <td>
+                    <input type="text" name="Reference2Field" list="Reference2List" />
+                    <datalist id="Reference2List">
+                        @foreach (var member in Model.Members)
+                        {
+                            <option value="@member.MemberId">@member.MemberName</option>
+                        }
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit" name="Submit" value="CreateMembershipApplication">Submit</button>
+                </td>
+            </tr>
+        </table>
+        <br/>
+    </form>
+    @Model.Message
+</div>

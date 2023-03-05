@@ -1,0 +1,164 @@
+﻿@page
+@model ClubBAISTDev.Pages.ReviewMembershipApplicationModel
+@{
+    ViewData["Title"] = "Review Membership Application";
+}
+<div>
+    <h1>Review Membership Application</h1>
+
+    <form method="post" name="ReviewMembershipApplicationForm">
+        <table>
+            @if (Model.AllMembershipApplications != null)
+            {
+                <tr>
+                    <td>Membership Application:</td>
+                    <td>
+                        <input type="text" name="MembershipApplicationField" list="MembershipApplicationList" />
+                        <datalist id="MembershipApplicationList">
+                            @foreach (var membershipApplication in Model.AllMembershipApplications)
+                            {
+                                <option value="@membershipApplication.MembershipApplicationId">@membershipApplication.FirstName @membershipApplication.LastName</option>
+                            }
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit" name="Submit" value="GetMembershipApplication">Get</button>
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        <table>
+            @if (Model.CurrentMembershipApplication != null)
+            {
+                <tr>
+                    <td>First Name:</td>
+                    <td>
+                        <input asp-for="FirstNameField" name="FirstNameField" value="@Model.CurrentMembershipApplication.FirstName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td>
+                        <input asp-for="LastNameField" name="LastNameField" value="@Model.CurrentMembershipApplication.LastName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td>
+                        <input asp-for="AddressField" name="AddressField" value="@Model.CurrentMembershipApplication.Address" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Postal Code:</td>
+                    <td>
+                        <input asp-for="PostalCodeField" name="PostalCodeField" value="@Model.CurrentMembershipApplication.PostalCode" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Phone Number:</td>
+                    <td>
+                        <input asp-for="PhoneNumberField" name="PhoneNumberField" value="@Model.CurrentMembershipApplication.PhoneNumber" />
+                    </td>
+                </tr>
+                @if (Model.CurrentMembershipApplication.AlternatePhoneNumber != null)
+                {
+                    <tr>
+                        <td>Alternate Phone Number:</td>
+                        <td>@Model.CurrentMembershipApplication.AlternatePhoneNumber</td>
+                    </tr>
+                }
+                <tr>
+                    <td>Email:</td>
+                    <td>
+                        <input asp-for="EmailField" name="EmailField" value="@Model.CurrentMembershipApplication.Email" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date Of Birth:</td>
+                    <td>@Model.CurrentMembershipApplication.DateOfBirth.ToShortDateString()</td>
+                </tr>
+                @if (Model.CurrentMembershipApplication.Occupation != null)
+                {
+                    <tr>
+                        <td>Occupation:</td>
+                        <td>@Model.CurrentMembershipApplication.Occupation</td>
+                    </tr>
+                }
+                @if (Model.CurrentMembershipApplication.CompanyName != null)
+                {
+                    <tr>
+                        <td>Company Name:</td>
+                        <td>@Model.CurrentMembershipApplication.CompanyName </td>
+                    </tr>
+                }
+                @if (Model.CurrentMembershipApplication.CompanyAddress != null)
+                {
+                    <tr>
+                        <td>Company Address:</td>
+                        <td>@Model.CurrentMembershipApplication.CompanyAddress</td>
+                    </tr>
+                }
+                @if (Model.CurrentMembershipApplication.CompanyPostalCode != null)
+                {
+                    <tr>
+                        <td>Company Postal Code:</td>
+                        <td>@Model.CurrentMembershipApplication.CompanyPostalCode</td>
+                    </tr>
+                }
+                @if (Model.CurrentMembershipApplication.CompanyPhoneNumber != null)
+                {
+                    <tr>
+                        <td>Company Phone Number:</td>
+                        <td>@Model.CurrentMembershipApplication.CompanyPhoneNumber</td>
+                    </tr>
+                }
+                <tr>
+                    <td>Reference 1:</td>
+                    <td>@Model.Reference1.MemberName</td>
+                </tr>
+                <tr>
+                    <td>Reference 2:</td>
+                    <td>@Model.Reference2.MemberName</td>
+                </tr>
+                <tr>
+                    <td>Approved:</td>
+                    <td>
+                        <input asp-for="ApprovedField" name="ApprovedField" value="@Model.CurrentMembershipApplication.Approved" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Membership Level:</td>
+                    <td>
+                        <input type="text" name="MembershipLevelField" list="MembershipLevelList" />
+                        <datalist id="MembershipLevelList">
+                            @foreach (var level in Model.MembershipLevels)
+                            {
+                                <option value="@level">@level</option>
+                            }
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Membership Type:</td>
+                    <td>
+                        <input type="text" name="MembershipTypeField" list="MembershipTypeList" />
+                        <datalist id="MembershipTypeList">
+                            <option value="Stakeholder">StakeHolder</option>
+                            <option>None</option>
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit" name="Submit" value="CreateMember">Approve</button>
+                    </td>
+                </tr>
+            }
+        </table>
+        <br/>
+    </form>
+    @Model.Message
+</div>

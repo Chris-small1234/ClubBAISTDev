@@ -17,6 +17,15 @@ namespace ClubBAISTDev.Domain
             return Success;
         }
 
+        public bool StaffLogin(int staffMemberId, string staffMemberPassword)
+        {
+            bool Success = false;
+            StaffMembers StaffMemberManager = new();
+            Success = StaffMemberManager.Login(staffMemberId, staffMemberPassword);
+
+            return Success;
+        }
+
         public DailyTeeSheet GetDailyTeeSheet(DateTime selectedDate)
         {
             DailyTeeSheets DailyTeeSheetManager = new();
@@ -277,6 +286,74 @@ namespace ClubBAISTDev.Domain
             }
 
             return AllRoundedCharges;
+        }
+
+        public bool CreateMembershipApplication(MembershipApplication NewMembershipApplication)
+        {
+            bool Confirmation;
+
+            MembershipApplications MembershipApplicationManager = new();
+
+            Confirmation = MembershipApplicationManager.CreateMembershipApplication(NewMembershipApplication);
+
+            return Confirmation;
+        }
+
+        public StaffMember GetStaffMember(int staffMemberId)
+        {
+            StaffMembers StaffMemberManager = new();
+
+            StaffMember CurrentStaffMember;
+
+            CurrentStaffMember = StaffMemberManager.GetStaffMember(staffMemberId);
+
+            return CurrentStaffMember;
+        }
+
+        public List<MembershipApplication> GetMembershipApplications()
+        {
+            MembershipApplications MembershipApplicationManager = new();
+
+            List<MembershipApplication> AllMembershipApplications;
+
+            AllMembershipApplications = MembershipApplicationManager.GetAllMembershipApplications();
+
+            return AllMembershipApplications;
+        }
+
+        public MembershipApplication GetMembershipApplication(int membershipApplicationId)
+        {
+            MembershipApplication CurrentMembershipApplication;
+
+            MembershipApplications MembershipApplicationManager = new();
+
+            CurrentMembershipApplication = MembershipApplicationManager.GetMembershipApplication(membershipApplicationId);
+
+            return CurrentMembershipApplication;
+        }
+
+        public bool CreateMember(Member NewMember)
+        {
+            Members MemberManager = new();
+
+            bool Confirmation;
+
+            Random res = new();
+
+            string str = "abcdefghijklmnopqrstuvwxyz";
+            int size = 10;
+
+            string password = "";
+
+            for (int i = 0; i < size; i++)
+            {
+                int x = res.Next(26);
+                password = password + str[x];
+            }
+
+            Confirmation = MemberManager.CreateMember(NewMember, password);
+
+            return Confirmation;
         }
     }
 }

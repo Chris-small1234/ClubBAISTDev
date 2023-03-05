@@ -69,3 +69,5 @@ C:\Users\chrissmall\source\repos\ClubBAISTDev\ClubBAISTDev\bin\Debug\net5.0\runt
 C:\Users\chrissmall\source\repos\ClubBAISTDev\ClubBAISTDev\obj\Debug\net5.0\Razor\Pages\RequestStandingTeeTime.cshtml.g.cs
 C:\Users\chrissmall\source\repos\ClubBAISTDev\ClubBAISTDev\obj\Debug\net5.0\Razor\Pages\CancelStandingTeeTimeRequest.cshtml.g.cs
 C:\Users\chrissmall\source\repos\ClubBAISTDev\ClubBAISTDev\obj\Debug\net5.0\Razor\Pages\ViewMemberAccount.cshtml.g.cs
+C:\Users\chrissmall\source\repos\ClubBAISTDev\ClubBAISTDev\obj\Debug\net5.0\Razor\Pages\CreateMembershipApplication.cshtml.g.cs
+C:\Users\chrissmall\source\repos\ClubBAISTDev\ClubBAISTDev\obj\Debug\net5.0\Razor\Pages\ReviewMembershipApplication.cshtml.g.cs

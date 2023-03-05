@@ -17,6 +17,12 @@ namespace ClubBAISTDev.Pages
         [BindProperty]
         public string PasswordField { get; set; }
 
+        [BindProperty]
+        public int StaffMemberIdField { get; set; }
+
+        [BindProperty]
+        public string StaffPasswordField { get; set; }
+
         public string Message { get; set; }
 
         [BindProperty]
@@ -30,11 +36,16 @@ namespace ClubBAISTDev.Pages
 
         public void OnGet()
         {
-            string user = HttpContext.Session.GetString("Auth");
+            string user = HttpContext.Session.GetString("MemberAuth");
+            if (user == null)
+            {
+                user = HttpContext.Session.GetString("StaffAuth");
+            }
             logout = HttpContext.Session.GetString("Logout");
             if (user == null || user == "none")
             {
-                HttpContext.Session.SetString("Auth", "none");
+                HttpContext.Session.SetString("MemberAuth", "none");
+                HttpContext.Session.SetString("StaffAuth", "none");
                 HttpContext.Session.SetString("Logout", "false");
             } else
             {
@@ -44,34 +55,57 @@ namespace ClubBAISTDev.Pages
 
         public IActionResult OnPost()
         {
-            switch(Submit)
+            try
             {
-                case "login":
-                    Success = RequestDirector.Login(MemberIdField, PasswordField);
+                switch(Submit)
+                {
+                    case "memberlogin":
+                        Success = RequestDirector.Login(MemberIdField, PasswordField);
 
-                    if (Success)
-                    {
-                        HttpContext.Session.SetString("Auth", MemberIdField.ToString());
-                        HttpContext.Session.SetString("Logout", "true");
-                        Message = "Member Logged In!";
-                        return new RedirectToPageResult("/Index");
-                    }
-                    else
-                    {
-                        Message = "Incorrect Member ID or Password";
+                        if (Success)
+                        {
+                            HttpContext.Session.SetString("MemberAuth", MemberIdField.ToString());
+                            HttpContext.Session.SetString("Logout", "true");
+                            Message = "Member Logged In!";
+                            return new RedirectToPageResult("/Index");
+                        }
+                        else
+                        {
+                            Message = "Incorrect Member ID or Password";
+                            HttpContext.Session.SetString("Logout", "false");
+                            return null;
+                        }
+                        break;
+                    case "stafflogin":
+                        Success = RequestDirector.StaffLogin(StaffMemberIdField, StaffPasswordField);
+
+                        if (Success)
+                        {
+                            HttpContext.Session.SetString("StaffAuth", StaffMemberIdField.ToString());
+                            HttpContext.Session.SetString("Logout", "true");
+                            Message = "Staff Member Logged In!";
+                            return new RedirectToPageResult("/Index");
+                        }
+                        else
+                        {
+                            Message = "Incorrect Staff Member ID or Password";
+                            HttpContext.Session.SetString("Logout", "false");
+                            return null;
+                        }
+                        break;
+                    default:
+                        HttpContext.Session.SetString("StaffAuth", "none");
+                        HttpContext.Session.SetString("MemberAuth", "none");
                         HttpContext.Session.SetString("Logout", "false");
-                        return null;
-                    }
-                    break;
-                case "logout":
-                    HttpContext.Session.SetString("Auth", "none");
-                    HttpContext.Session.SetString("Logout", "false");
-                    return new RedirectToPageResult("/Login");
-                    break;
-                default:
-                    return null;
-                    break;
+                        return new RedirectToPageResult("/Login");
+                        break;
+                }
+            } catch
+            {
+                Message = "Fields Missing";
+                return null;
             }
+
         }
     }
 }

@@ -44,23 +44,30 @@ namespace ClubBAISTDev.Pages
         {
             Members = RequestDirector.GetMembers();
             bool Confirmation;
-            string user = HttpContext.Session.GetString("Auth");
+            string user = HttpContext.Session.GetString("MemberAuth");
 
             if (user != null && user != "none")
             {
                 Member LoggedInMember = RequestDirector.GetMember(int.Parse(user));
                 if (LoggedInMember.MembershipType == "Stakeholder")
                 {
-                    string Player1Name = LoggedInMember.MemberName;
-                    Confirmation = RequestDirector.CreateStandingTeeTimeRequest(LoggedInMember.MemberId, RequestedTeeTimeField, RequestedDayOfWeekField, RequestedStartDateField, RequestedEndDateField, false, Player1Name, Player2NameField, Player3NameField, Player4NameField);
-
-                    if (Confirmation)
+                    if (Player2NameField != null && Player3NameField != null && Player4NameField != null)
                     {
-                        Message = "Standing Tee Time Request Submitted!";
+                        string Player1Name = LoggedInMember.MemberName;
+                        Confirmation = RequestDirector.CreateStandingTeeTimeRequest(LoggedInMember.MemberId, RequestedTeeTimeField, RequestedDayOfWeekField, RequestedStartDateField, RequestedEndDateField, false, Player1Name, Player2NameField, Player3NameField, Player4NameField);
+
+                        if (Confirmation)
+                        {
+                            Message = "Standing Tee Time Request Submitted!";
+                        }
+                        else
+                        {
+                            Message = "Error submitting standing tee time request, please try again";
+                        }
                     }
                     else
                     {
-                        Message = "Error submitting standing tee time request, please try again";
+                        Message = "There must be 4 members on a standing tee time request";
                     }
                 } else
                 {

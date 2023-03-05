@@ -24,6 +24,18 @@
                 </div>
             </li>
             <li><a asp-page="/ViewMemberAccount" class="account">Account</a></li>
+            <li>
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        Membership Applications
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a asp-page="/CreateMembershipApplication">Create Membership Application</a>
+                        <a asp-page="/ReviewMembershipApplication">Review Membership Applications</a>
+                    </div>
+                </div>
+            </li>
         </ul>
     </nav>
     <main>

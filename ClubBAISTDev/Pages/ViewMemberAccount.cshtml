@@ -6,56 +6,60 @@
 
 <div>
     <h1>Account Details</h1>
-    <table>
-        <tr>
-            <td>Member ID:</td>
-            <td>@Model.LoggedInMember.MemberId</td>
-        </tr>
-        <tr>
-            <td>Membership Level:</td>
-            <td>@Model.LoggedInMember.MembershipLevel</td>
-        </tr>
-        @if (Model.LoggedInMember.MembershipType != null)
-        {
+    @if (Model.user != null && Model.user != "none")
+    {
+        <table>
             <tr>
-                <td>Membership Type:</td>
-                <td>@Model.LoggedInMember.MembershipType</td>
+                <td>Member ID:</td>
+                <td>@Model.LoggedInMember.MemberId</td>
             </tr>
-        }
-        <tr>
-            <td>Name:</td>
-            <td>@Model.LoggedInMember.MemberName</td>
-        </tr>
-        <tr>
-            <td>Email:</td>
-            <td>@Model.LoggedInMember.MemberEmail</td>
-        </tr>
-        <tr>
-            <td>Membership Standing:</td>
-            <td>@Model.LoggedInMember.MemberStanding</td>
-        </tr>
-        <tr>
-            <td>Charges:</td>
-            <td>
-                <table style="border: 2px solid black">
-                    <tr>
-                        <td style="border: 1px solid black">Amount</td>
-                        <td style="border: 1px solid black">When Charged</td>
-                    </tr>
-                    @foreach(var element in Model.AllCharges)
-                    {
+            <tr>
+                <td>Membership Level:</td>
+                <td>@Model.LoggedInMember.MembershipLevel</td>
+            </tr>
+            @if (Model.LoggedInMember.MembershipType != null)
+            {
+                <tr>
+                    <td>Membership Type:</td>
+                    <td>@Model.LoggedInMember.MembershipType</td>
+                </tr>
+            }
+            <tr>
+                <td>Name:</td>
+                <td>@Model.LoggedInMember.MemberName</td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>@Model.LoggedInMember.MemberEmail</td>
+            </tr>
+            <tr>
+                <td>Membership Standing:</td>
+                <td>@Model.LoggedInMember.MemberStanding</td>
+            </tr>
+            <tr>
+                <td>Charges:</td>
+                <td>
+                    <table style="border: 2px solid black">
                         <tr>
-                            <td style="border: 1px solid black">$@element.Amount</td>
-                            <td style="border: 1px solid black">@element.WhenCharged</td>
+                            <td style="border: 1px solid black">Amount</td>
+                            <td style="border: 1px solid black">When Charged</td>
                         </tr>
-                    }
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td>Total Balance:</td>
-            <td>$@Model.LoggedInMember.Balance</td>
-        </tr>
-    </table>
+                        @foreach (var element in Model.AllCharges)
+                        {
+                            <tr>
+                                <td style="border: 1px solid black">$@element.Amount</td>
+                                <td style="border: 1px solid black">@element.WhenCharged</td>
+                            </tr>
+                        }
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>Total Balance:</td>
+                <td>$@Model.LoggedInMember.Balance</td>
+            </tr>
+        </table>
+    }
+
     @Model.Message
 </div>

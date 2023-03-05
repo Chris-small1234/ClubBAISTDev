@@ -19,9 +19,11 @@ namespace ClubBAISTDev.Pages
 
         public string Message { get; set; }
 
+        public string user { get; set; }
+
         public void OnGet()
         {
-            string user = HttpContext.Session.GetString("Auth");
+            user = HttpContext.Session.GetString("MemberAuth");
             if (user != null && user != "none")
             {
                 LoggedInMember = RequestDirector.GetMember(int.Parse(user));
@@ -61,7 +63,7 @@ namespace ClubBAISTDev.Pages
                 }
             }
             else
-                Message = "User needs to be logged in";
+                Message = "Member needs to be logged in";
         }
     }
 }

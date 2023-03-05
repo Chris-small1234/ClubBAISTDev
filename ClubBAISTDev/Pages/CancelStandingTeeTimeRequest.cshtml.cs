@@ -34,8 +34,8 @@ namespace ClubBAISTDev.Pages
         public void OnPost()
         {
             StandingTeeTimeRequests = RequestDirector.GetStandingTeeTimeRequests();
-            bool Confirmation;
-            string user = HttpContext.Session.GetString("Auth");
+            bool Confirmation;;
+            string user = HttpContext.Session.GetString("MemberAuth");
 
             if (user != null && user != "none")
             {

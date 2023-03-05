@@ -10,6 +10,9 @@
         <form method="post" name="LoginForm">
             <table>
                 <tr>
+                    <td>Member Login</td>
+                </tr>
+                <tr>
                     <td>Member ID:</td>
                     <td>
                         <input asp-for="MemberIdField" type="text" />
@@ -25,8 +28,30 @@
                 </tr>
                 <tr>
                     <td>
-                        <button type="submit" name="Submit" value="login">Submit</button>
+                        <button type="submit" name="Submit" value="memberlogin">Submit</button>
                     </td>
+                </tr>
+                <tr>
+                    <td>Staff Login:</td>
+                <tr>
+                    <td>Staff Member ID:</td>
+                    <td>
+                        <input asp-for="StaffMemberIdField" type="text" />
+                        <span asp-validation-for="StaffMemberIdField"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td>
+                        <input asp-for="StaffPasswordField" type="password" />
+                        <span asp-validation-for="StaffPasswordField"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit" name="Submit" value="stafflogin">Submit</button>
+                    </td>
+                </tr>
                 </tr>
             </table>
         </form>

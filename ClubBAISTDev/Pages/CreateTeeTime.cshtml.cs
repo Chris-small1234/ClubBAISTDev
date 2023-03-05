@@ -72,7 +72,7 @@ namespace ClubBAISTDev.Pages
         public void OnPost()
         {
             Members = RequestDirector.GetMembers();
-            string user = HttpContext.Session.GetString("Auth");
+            string user = HttpContext.Session.GetString("MemberAuth");
             if (user != null && user != "none")
             {
                 bool Confirmation;
