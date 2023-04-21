@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAk+w/YWmSD0OuAFkknINmcQAAAAACAAAAAAAQZgAAAAEAACAAAACXrdWSHXFDbAR1oWNgqjbffQIaZ3+MwRBz8lIHBRqm9gAAAAAOgAAAAAIAACAAAAB3iXFe0eJDwU+ycmio3bpIErZjVLI7xrGBjZW0CnldrDAAAABIySB3vJQAy8ufCHfg8ZPY2tur4ENo1QUOm/7bQWksx7FVkucWckyT3TWDvJvLPaFAAAAAJ+JUF8MkeIALuA0V7p3RsYryU3aAY6KIx0xiERez1seFr1AzlfirKIZ0LitlB13l9pZOkE0NuEU5b3jQqykkow==</EncryptedPassword>
+    <History>False|2023-03-26T19:23:17.4004023Z;False|2023-03-26T13:21:20.6810494-06:00;</History>
+    <_PublishTargetUrl>ftp://dev1.baist.ca/Students/csmall8</_PublishTargetUrl>
+  </PropertyGroup>
+</Project>

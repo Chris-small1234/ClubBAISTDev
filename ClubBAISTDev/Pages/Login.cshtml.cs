@@ -102,7 +102,7 @@ namespace ClubBAISTDev.Pages
                 }
             } catch
             {
-                Message = "Fields Missing";
+                Message = "Something went wrong";
                 return null;
             }
 

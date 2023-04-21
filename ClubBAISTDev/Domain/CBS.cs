@@ -49,7 +49,7 @@ namespace ClubBAISTDev.Domain
             return TodayTeeTimes;
         }
 
-        public ReturnItem CreateTeeTime(int NumberOfPlayersField, string PhoneField, int NumberOfCartsField, DateTime TeeTimeField, string EmployeeNameField, int MemberIdField, int DailyTeeSheetIdField, List<Player> CurrentPlayers)
+        public ReturnItem CreateTeeTime(string PhoneField, int NumberOfCartsField, DateTime TeeTimeField, string EmployeeNameField, int MemberIdField, int DailyTeeSheetIdField, List<Player> CurrentPlayers)
         {
             Members MemberManager = new();
             Member CurrentMember = MemberManager.GetMember(MemberIdField);
@@ -59,12 +59,13 @@ namespace ClubBAISTDev.Domain
             TeeTimes TeeTimeManager = new();
             ReturnItem Return = new();
             TeeTime ExistingTeeTime = TeeTimeManager.GetTeeTime(TeeTimeField);
+            int NumberOfPlayers = CurrentPlayers.Count();
             // Check for exsiting tee time
             if (ExistingTeeTime.TeeTimeId == 0)
             {
                 TeeTime RequestedTeeTime = new()
                 {
-                    NumberOfPlayers = NumberOfPlayersField,
+                    NumberOfPlayers = NumberOfPlayers,
                     Phone = PhoneField,
                     NumberOfCarts = NumberOfCartsField,
                     SetTeeTime = TeeTimeField,

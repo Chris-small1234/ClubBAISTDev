@@ -1,8 +1,10 @@
 ﻿using ClubBAISTDev.Domain;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,13 +16,18 @@ namespace ClubBAISTDev.TechnicalServices
         {
             List<TeeTime> TodayTeeTimes = new();
 
-            SqlConnection MyDataSource = new();
-            MyDataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB;";
-            MyDataSource.Open();
+            SqlConnection DataSource = new();
+            //DataSource.ConnectionString = @"Persist Security Info=false;Database=csmall8;User ID=csmall8;Password=wtF5689!@#;server=dev1.baist.ca";
+            ConfigurationBuilder DatabaseUsersBuilder = new();
+            DatabaseUsersBuilder.SetBasePath(Directory.GetCurrentDirectory());
+            DatabaseUsersBuilder.AddJsonFile("appsettings.json");
+            IConfiguration DatabaseUsersConfiguration = DatabaseUsersBuilder.Build();
+            DataSource.ConnectionString = DatabaseUsersConfiguration.GetConnectionString("CBCS");
+            DataSource.Open();
 
             SqlCommand Command = new()
             {
-                Connection = MyDataSource,
+                Connection = DataSource,
                 CommandType = CommandType.StoredProcedure,
                 CommandText = "GetTeeTimesByDailyTeeSheetId"
             };
@@ -60,7 +67,7 @@ namespace ClubBAISTDev.TechnicalServices
                 }
             }
             DataReader.Close();
-            MyDataSource.Close();
+            DataSource.Close();
             return TodayTeeTimes;
         }
 
@@ -69,9 +76,12 @@ namespace ClubBAISTDev.TechnicalServices
             bool Confirmation = false;
 
             SqlConnection DataSource = new();
-
-
-            DataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB";
+            ConfigurationBuilder DatabaseUsersBuilder = new();
+            DatabaseUsersBuilder.SetBasePath(Directory.GetCurrentDirectory());
+            DatabaseUsersBuilder.AddJsonFile("appsettings.json");
+            IConfiguration DatabaseUsersConfiguration = DatabaseUsersBuilder.Build();
+            DataSource.ConnectionString = DatabaseUsersConfiguration.GetConnectionString("CBCS");
+            //DataSource.ConnectionString = @"Persist Security Info=false;Database=csmall8;User ID=csmall8;Password=wtF5689!@#;server=dev1.baist.ca";
 
             DataSource.Open();
 
@@ -156,13 +166,18 @@ namespace ClubBAISTDev.TechnicalServices
         {
             TeeTime MatchingTeeTime = new();
 
-            SqlConnection MyDataSource = new();
-            MyDataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB;";
-            MyDataSource.Open();
+            SqlConnection DataSource = new();
+            ConfigurationBuilder DatabaseUsersBuilder = new();
+            DatabaseUsersBuilder.SetBasePath(Directory.GetCurrentDirectory());
+            DatabaseUsersBuilder.AddJsonFile("appsettings.json");
+            IConfiguration DatabaseUsersConfiguration = DatabaseUsersBuilder.Build();
+            DataSource.ConnectionString = DatabaseUsersConfiguration.GetConnectionString("CBCS");
+            //MyDataSource.ConnectionString = @"Persist Security Info=false;Database=csmall8;User ID=csmall8;Password=wtF5689!@#;server=dev1.baist.ca";
+            DataSource.Open();
 
             SqlCommand Command = new()
             {
-                Connection = MyDataSource,
+                Connection = DataSource,
                 CommandType = CommandType.StoredProcedure,
                 CommandText = "GetTeeTimeByDateTime"
             };
@@ -189,7 +204,7 @@ namespace ClubBAISTDev.TechnicalServices
                 MatchingTeeTime.SetTeeTime = (DateTime)DataReader["TeeTime"];
             }
             DataReader.Close();
-            MyDataSource.Close();
+            DataSource.Close();
             return MatchingTeeTime;
         }
 
@@ -197,13 +212,18 @@ namespace ClubBAISTDev.TechnicalServices
         {
             int TeeTimeId = 0;
 
-            SqlConnection MyDataSource = new();
-            MyDataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB;";
-            MyDataSource.Open();
+            SqlConnection DataSource = new();
+            ConfigurationBuilder DatabaseUsersBuilder = new();
+            DatabaseUsersBuilder.SetBasePath(Directory.GetCurrentDirectory());
+            DatabaseUsersBuilder.AddJsonFile("appsettings.json");
+            IConfiguration DatabaseUsersConfiguration = DatabaseUsersBuilder.Build();
+            DataSource.ConnectionString = DatabaseUsersConfiguration.GetConnectionString("CBCS");
+            //MyDataSource.ConnectionString = @"Persist Security Info=false;Database=csmall8;User ID=csmall8;Password=wtF5689!@#;server=dev1.baist.ca";
+            DataSource.Open();
 
             SqlCommand Command = new()
             {
-                Connection = MyDataSource,
+                Connection = DataSource,
                 CommandType = CommandType.StoredProcedure,
                 CommandText = "GetNewTeeTimeId"
             };
@@ -237,7 +257,7 @@ namespace ClubBAISTDev.TechnicalServices
                 TeeTimeId = (int)DataReader["TeeTimeId"];
             }
             DataReader.Close();
-            MyDataSource.Close();
+            DataSource.Close();
             return TeeTimeId;
         }
     }

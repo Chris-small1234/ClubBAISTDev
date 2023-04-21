@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <History>True|2023-04-21T01:00:34.7125113Z;True|2023-04-20T11:34:49.1209112-06:00;True|2023-03-29T08:55:10.4283737-06:00;True|2023-03-26T14:28:53.2981265-06:00;True|2023-03-26T14:22:06.5528158-06:00;True|2023-03-26T13:55:22.9868004-06:00;True|2023-03-26T13:37:57.0151340-06:00;True|2023-03-26T13:23:36.3804044-06:00;False|2023-03-26T13:22:26.8133632-06:00;</History>
+    <_PublishTargetUrl>C:\Users\chrissmall\source\repos\ClubBAISTDev\ClubBAISTDev\bin\Release\net5.0\publish\</_PublishTargetUrl>
+  </PropertyGroup>
+</Project>

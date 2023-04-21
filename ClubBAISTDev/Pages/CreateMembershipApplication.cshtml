@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Create Membership Application";
 }
+<head>
+    <script>
+        function GetDate(inputElement) {
+            var today = new Date();
+            inputElement.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+        }
+    </script>
+</head>
 <div>
     <h1>Create Membership Application</h1>
 
@@ -12,30 +20,35 @@
                 <td>FirstName:</td>
                 <td>
                     <input asp-for="FirstNameField" name="FirstNameField" />
+                    @Html.ValidationMessage("FirstNameField")
                 </td>
             </tr>
             <tr>
                 <td>LastName:</td>
                 <td>
                     <input asp-for="LastNameField" name="LastNameField" />
+                    @Html.ValidationMessage("LastNameField")
                 </td>
             </tr>
             <tr>
                 <td>Address:</td>
                 <td>
                     <input asp-for="AddressField" name="AddressField" />
+                    @Html.ValidationMessage("AddressField")
                 </td>
             </tr>
             <tr>
                 <td>Postal Code:</td>
                 <td>
                     <input asp-for="PostalCodeField" name="PostalCodeField" />
+                    @Html.ValidationMessage("PostalCodeField")
                 </td>
             </tr>
             <tr>
                 <td>Phone Number:</td>
                 <td>
                     <input asp-for="PhoneNumberField" name="PhoneNumberField" />
+                    @Html.ValidationMessage("PhoneNumberField")
                 </td>
             </tr>
             <tr>
@@ -48,12 +61,13 @@
                 <td>Email:</td>
                 <td>
                     <input asp-for="EmailField" name="EmailField" />
+                    @Html.ValidationMessage("EmailField")
                 </td>
             </tr>
             <tr>
                 <td>Date of Birth:</td>
                 <td>
-                    <input asp-for="DateOfBirthField" name="DateOfBirthField" />
+                    <input asp-for="DateOfBirthField" name="DateOfBirthField" onclick="GetDate(window.document.CreateMembershipApplicationForm.DateOfBirthField);" />
                 </td>
             </tr>
             <tr>
@@ -96,6 +110,7 @@
                             <option value="@member.MemberId">@member.MemberName</option>
                         }
                     </datalist>
+                    @Html.ValidationMessage("Reference1Field")
                 </td>
             </tr>
             <tr>
@@ -108,6 +123,7 @@
                             <option value="@member.MemberId">@member.MemberName</option>
                         }
                     </datalist>
+                    @Html.ValidationMessage("Reference2Field")
                 </td>
             </tr>
             <tr>

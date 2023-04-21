@@ -77,35 +77,71 @@ namespace ClubBAISTDev.Pages
                 StaffMember CurrentStaffMember = RequestDirector.GetStaffMember(int.Parse(user));
                 if (CurrentStaffMember.StaffTypeName == "Membership Committee")
                 {
-                    MembershipApplication NewMembershipApplication = new()
+                    if (FirstNameField == null)
                     {
-                        FirstName = FirstNameField,
-                        LastName = LastNameField,
-                        Address = AddressField,
-                        PostalCode = PostalCodeField,
-                        PhoneNumber = PhoneNumberField,
-                        AlternatePhoneNumber = AlternatePhoneNumberField,
-                        Email = EmailField,
-                        DateOfBirth = DateOfBirthField,
-                        Occupation = OccupationField,
-                        CompanyName = CompanyNameField,
-                        CompanyAddress = CompanyAddressField,
-                        CompanyPostalCode = CompanyPostalCodeField,
-                        CompanyPhoneNumber = CompanyPhoneNumberField,
-                        MemberReference1 = Reference1Field,
-                        MemberReference2 = Reference2Field,
-                        Approved = false,
-                    };
-
-                    bool Confirmation = RequestDirector.CreateMembershipApplication(NewMembershipApplication);
-
-                    if (Confirmation)
-                    {
-                        Message = "Membership Application Submitted!";
+                        ModelState.AddModelError("FirstNameField", "First Name is not valid");
                     }
-                    else
+                    if (LastNameField == null)
                     {
-                        Message = "Error membership application, please try again";
+                        ModelState.AddModelError("LastNameField", "Last Name is not valid");
+                    }
+                    if (AddressField == null)
+                    {
+                        ModelState.AddModelError("AddressField", "Address is not valid");
+                    }
+                    if (PostalCodeField == null)
+                    {
+                        ModelState.AddModelError("PostalCodeField", "Postal Code is not valid");
+                    }
+                    if (PhoneNumberField == null)
+                    {
+                        ModelState.AddModelError("PhoneNumberField", "Phone Number is not valid");
+                    }
+                    if (EmailField == null)
+                    {
+                        ModelState.AddModelError("EmailField", "Email is not valid");
+                    }
+                    if (Reference1Field == 0)
+                    {
+                        ModelState.AddModelError("Reference1Field", "Reference 1 is required");
+                    }
+                    if (Reference2Field == 0)
+                    {
+                        ModelState.AddModelError("Reference2Field", "Reference 2 is required");
+                    }
+
+                    if (ModelState.ErrorCount == 0)
+                    {
+                        MembershipApplication NewMembershipApplication = new()
+                        {
+                            FirstName = FirstNameField,
+                            LastName = LastNameField,
+                            Address = AddressField,
+                            PostalCode = PostalCodeField,
+                            PhoneNumber = PhoneNumberField,
+                            AlternatePhoneNumber = AlternatePhoneNumberField,
+                            Email = EmailField,
+                            DateOfBirth = DateOfBirthField,
+                            Occupation = OccupationField,
+                            CompanyName = CompanyNameField,
+                            CompanyAddress = CompanyAddressField,
+                            CompanyPostalCode = CompanyPostalCodeField,
+                            CompanyPhoneNumber = CompanyPhoneNumberField,
+                            MemberReference1 = Reference1Field,
+                            MemberReference2 = Reference2Field,
+                            Approved = false,
+                        };
+
+                        bool Confirmation = RequestDirector.CreateMembershipApplication(NewMembershipApplication);
+
+                        if (Confirmation)
+                        {
+                            Message = "Membership Application Submitted!";
+                        }
+                        else
+                        {
+                            Message = "Error membership application, please try again";
+                        }
                     }
                 } else
                 {

@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using ClubBAISTDev.Domain;
+using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace ClubBAISTDev.TechnicalServices
 {
@@ -15,8 +17,12 @@ namespace ClubBAISTDev.TechnicalServices
             bool Confirmation = false;
 
             SqlConnection DataSource = new();
-
-            DataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB";
+            ConfigurationBuilder DatabaseUsersBuilder = new();
+            DatabaseUsersBuilder.SetBasePath(Directory.GetCurrentDirectory());
+            DatabaseUsersBuilder.AddJsonFile("appsettings.json");
+            IConfiguration DatabaseUsersConfiguration = DatabaseUsersBuilder.Build();
+            DataSource.ConnectionString = DatabaseUsersConfiguration.GetConnectionString("CBCS");
+            //DataSource.ConnectionString = @"Persist Security Info=false;Database=csmall8;User ID=csmall8;Password=wtF5689!@#;server=dev1.baist.ca";
 
             DataSource.Open();
 
@@ -65,13 +71,18 @@ namespace ClubBAISTDev.TechnicalServices
         {
             List<Player> Players = new();
 
-            SqlConnection MyDataSource = new();
-            MyDataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB;";
-            MyDataSource.Open();
+            SqlConnection DataSource = new();
+            ConfigurationBuilder DatabaseUsersBuilder = new();
+            DatabaseUsersBuilder.SetBasePath(Directory.GetCurrentDirectory());
+            DatabaseUsersBuilder.AddJsonFile("appsettings.json");
+            IConfiguration DatabaseUsersConfiguration = DatabaseUsersBuilder.Build();
+            DataSource.ConnectionString = DatabaseUsersConfiguration.GetConnectionString("CBCS");
+            //MyDataSource.ConnectionString = @"Persist Security Info=false;Database=csmall8;User ID=csmall8;Password=wtF5689!@#;server=dev1.baist.ca";
+            DataSource.Open();
 
             SqlCommand Command = new()
             {
-                Connection = MyDataSource,
+                Connection = DataSource,
                 CommandType = CommandType.StoredProcedure,
                 CommandText = "GetPlayersByTeeTimeId"
             };
@@ -102,7 +113,7 @@ namespace ClubBAISTDev.TechnicalServices
                 }
             }
             DataReader.Close();
-            MyDataSource.Close();
+            DataSource.Close();
             return Players;
         }
     }

@@ -1,8 +1,10 @@
 ﻿using ClubBAISTDev.Domain;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,13 +17,20 @@ namespace ClubBAISTDev.TechnicalServices
             bool Success = false;
             Member AuthenticatedMember = new();
 
-            SqlConnection MyDataSource = new();
-            MyDataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB;";
-            MyDataSource.Open();
+            SqlConnection DataSource = new();
+            ConfigurationBuilder DatabaseUsersBuilder = new();
+            DatabaseUsersBuilder.SetBasePath(Directory.GetCurrentDirectory());
+            DatabaseUsersBuilder.AddJsonFile("appsettings.json");
+            IConfiguration DatabaseUsersConfiguration = DatabaseUsersBuilder.Build();
+            DataSource.ConnectionString = DatabaseUsersConfiguration.GetConnectionString("CBCS");
+
+            //put local SQL connection string here. Use appsettings.json for Prod.
+            //DataSource.ConnectionString = @"Persist Security Info=false;Database=csmall8;User ID=csmall8;Password=wtF5689!@#;server=dev1.baist.ca";
+            DataSource.Open();
 
             SqlCommand Command = new()
             {
-                Connection = MyDataSource,
+                Connection = DataSource,
                 CommandType = CommandType.StoredProcedure,
                 CommandText = "LoginMember"
             };
@@ -59,7 +68,7 @@ namespace ClubBAISTDev.TechnicalServices
                 Success = true;
             }
             DataReader.Close();
-            MyDataSource.Close();
+            DataSource.Close();
             return Success;
         }
 
@@ -67,13 +76,18 @@ namespace ClubBAISTDev.TechnicalServices
         {
             Member CurrentMember = new();
 
-            SqlConnection MyDataSource = new();
-            MyDataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB;";
-            MyDataSource.Open();
+            SqlConnection DataSource = new();
+            ConfigurationBuilder DatabaseUsersBuilder = new();
+            DatabaseUsersBuilder.SetBasePath(Directory.GetCurrentDirectory());
+            DatabaseUsersBuilder.AddJsonFile("appsettings.json");
+            IConfiguration DatabaseUsersConfiguration = DatabaseUsersBuilder.Build();
+            DataSource.ConnectionString = DatabaseUsersConfiguration.GetConnectionString("CBCS");
+            //MyDataSource.ConnectionString = @"Persist Security Info=false;Database=csmall8;User ID=csmall8;Password=wtF5689!@#;server=dev1.baist.ca";
+            DataSource.Open();
 
             SqlCommand Command = new()
             {
-                Connection = MyDataSource,
+                Connection = DataSource,
                 CommandType = CommandType.StoredProcedure,
                 CommandText = "GetMember"
             };
@@ -106,7 +120,7 @@ namespace ClubBAISTDev.TechnicalServices
                 CurrentMember.MemberStanding = (string)DataReader["MemberStanding"];
             }
             DataReader.Close();
-            MyDataSource.Close();
+            DataSource.Close();
             return CurrentMember;
         }
 
@@ -114,13 +128,18 @@ namespace ClubBAISTDev.TechnicalServices
         {
             List<Member> AllMembers = new();
 
-            SqlConnection MyDataSource = new();
-            MyDataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB;";
-            MyDataSource.Open();
+            SqlConnection DataSource = new();
+            ConfigurationBuilder DatabaseUsersBuilder = new();
+            DatabaseUsersBuilder.SetBasePath(Directory.GetCurrentDirectory());
+            DatabaseUsersBuilder.AddJsonFile("appsettings.json");
+            IConfiguration DatabaseUsersConfiguration = DatabaseUsersBuilder.Build();
+            DataSource.ConnectionString = DatabaseUsersConfiguration.GetConnectionString("CBCS");
+            //DataSource.ConnectionString = @"Persist Security Info=false;Database=csmall8;User ID=csmall8;Password=wtF5689!@#;server=dev1.baist.ca";
+            DataSource.Open();
 
             SqlCommand Command = new()
             {
-                Connection = MyDataSource,
+                Connection = DataSource,
                 CommandType = CommandType.StoredProcedure,
                 CommandText = "GetMembers"
             };
@@ -140,7 +159,7 @@ namespace ClubBAISTDev.TechnicalServices
                 }
             }
             DataReader.Close();
-            MyDataSource.Close();
+            DataSource.Close();
             return AllMembers;
         }
 
@@ -150,7 +169,12 @@ namespace ClubBAISTDev.TechnicalServices
 
             SqlConnection DataSource = new();
 
-            DataSource.ConnectionString = @"Persist Security Info=False;Integrated Security=True;Database=ClubBAISTDev;server=(localDB)\MSSQLLocalDB";
+            ConfigurationBuilder DatabaseUsersBuilder = new();
+            DatabaseUsersBuilder.SetBasePath(Directory.GetCurrentDirectory());
+            DatabaseUsersBuilder.AddJsonFile("appsettings.json");
+            IConfiguration DatabaseUsersConfiguration = DatabaseUsersBuilder.Build();
+            DataSource.ConnectionString = DatabaseUsersConfiguration.GetConnectionString("CBCS");
+            //DataSource.ConnectionString = @"Persist Security Info=false;Database=csmall8;User ID=csmall8;Password=wtF5689!@#;server=dev1.baist.ca";
 
             DataSource.Open();
 

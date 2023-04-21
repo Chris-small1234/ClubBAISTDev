@@ -15,9 +15,6 @@ namespace ClubBAISTDev.Pages
         public DateTime TeeSheetDateField { get; set; }
 
         [BindProperty]
-        public int NumberOfPlayersField { get; set; }
-
-        [BindProperty]
         public string PhoneField { get; set; }
 
         [BindProperty]
@@ -128,7 +125,7 @@ namespace ClubBAISTDev.Pages
                                     Players.Add(NewPlayer);
                                 }
                             }
-                            Return = RequestDirector.CreateTeeTime(NumberOfPlayersField, PhoneField, NumberOfCartsField, TeeTimeField, EmployeeNameField, MemberId, DailyTeeSheetId, Players);
+                            Return = RequestDirector.CreateTeeTime(PhoneField, NumberOfCartsField, TeeTimeField, EmployeeNameField, MemberId, DailyTeeSheetId, Players);
                             if (Return.Result)
                             {
                                 Message = Return.Message;

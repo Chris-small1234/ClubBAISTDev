@@ -93,25 +93,32 @@ namespace ClubBAISTDev.Pages
                         Reference2 = RequestDirector.GetMember(CurrentMembershipApplication.MemberReference2);
                     } else
                     {
-                        Member NewMember = new()
+                        if (MembershipLevelField != null)
                         {
-                            MembershipLevel = MembershipLevelField,
-                            MembershipType = MembershipTypeField,
-                            MemberName = FirstNameField + " " + LastNameField,
-                            MemberEmail = EmailField,
-                            MemberStanding = "G",
-                            Balance = 0
-                        };
-                        bool Confirmation = RequestDirector.CreateMember(NewMember);
+                            Member NewMember = new()
+                            {
+                                MembershipLevel = MembershipLevelField,
+                                MembershipType = MembershipTypeField,
+                                MemberName = FirstNameField + " " + LastNameField,
+                                MemberEmail = EmailField,
+                                MemberStanding = "G",
+                                Balance = 0
+                            };
+                            bool Confirmation = RequestDirector.CreateMember(NewMember);
 
-                        if (Confirmation)
+                            if (Confirmation)
+                            {
+                                Message = "Member Created!";
+                            }
+                            else
+                            {
+                                Message = "Error creating member, please try again";
+                            }
+                        } else
                         {
-                            Message = "Member Created!";
+                            Message = "Membership Level Required";
                         }
-                        else
-                        {
-                            Message = "Error creating member, please try again";
-                        }
+
                     }
                 }
                 else
